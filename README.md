@@ -57,7 +57,7 @@ import isArrowFunction from '@lvchengbin/is/src/arrow-function';
 isArrowFunction( () => {} ); // returns true
 ```
 
-### asyncFunction
+### is.asyncFunction
 
 For checking if a `function` is an `async function`.
 
@@ -67,13 +67,13 @@ import isAsyncFunction from '@lvchengbin/is/src/async-function';
 isAsyncFunction( async () => {} ); // returns true
 ```
 
-### boolean
+### is.boolean
 
 ```js
 import isBoolean from '@lvchengbin/is/src/boolean';
 ```
 
-### date
+### is.date
 
 For checking if an object is a `Date` instance.
 
@@ -83,7 +83,7 @@ import isDate from '@lvchengbin/is/src/date';
 isDate( new Date ); // return true
 ```
 
-### email
+### is.email
 
 For checking if the value is an email address.
 
@@ -93,7 +93,7 @@ import isEmail from '@lvchengbin/is/src/email';
 isEmail( 'abc@gmail.com' ); // returns true
 ```
 
-### empty
+### is.empty
 
 For checking if a value is empty, and empty values include empty object ({}), empty string (''), empty array ([]), number 0, false.
 
@@ -107,7 +107,7 @@ isEmpty( 0 ); // return true
 isEmpty( false ); // return true
 ```
 
-### error
+### is.error
 
 For checking if an object is an `Error` instance.
 
@@ -117,7 +117,7 @@ import isError from '@lvchengbin/is/src/error';
 isError( new Error ); // returns true
 ```
 
-### false
+### is.false
 
 For checking if a value is `false`, if the second argument is `true` (by default), the function will check a generalized `false`, it means that the following strings all mean `false`: "false", "no", "0", "", "nay", "n", "disagree".
 
@@ -129,55 +129,55 @@ isFalse( 'false' ); // returns true
 isFalse( 'false', false ); // returns false
 ```
 
-### function
+### is.function
 
 ```js
 import isFunction from '@lvchengbin/is/src/function';
 ```
 
-### integer
+### is.integer
 
 ```js
 import isInteger from '@lvchengbin/is/src/integer';
 ```
 
-### iterable
+### is.iterable
 
 ```js
 import isIterable from '@lvchengbin/is/src/iterable';
 ```
 
-### number
+### is.number
 
 ```js
 import isNumber from '@lvchengbin/is/src/number';
 ```
 
-### object
+### is.object
 
 ```js
 import isObject from '@lvchengbin/is/src/object';
 ```
 
-### promise
+### is.promise
 
 ```js
 import isPromise from '@lvchengbin/is/src/promise';
 ```
 
-### regexp
+### is.regexp
 
 ```js
 import isRegExp from '@lvchengbin/is/src/regexp';
 ```
 
-### string
+### is.string
 
 ```js
 import isString from '@lvchengbin/is/src/string';
 ```
 
-### true
+### is.true
 
 For checking if a value is `true`, if the second argument is `true` (by default), the function will check a generalized `true`, it means that the following strings all mean `true`: "true", "true", "yes", "ok", "1", "yea", "yep", "y", "agree".
 
@@ -188,13 +188,13 @@ isTrue( 'true' ); // returns true
 isTrue( 'true', false ); // returns false
 ```
 
-### undefined
+### is.undefined
 
 ```js
 import isUndefined from '@lvchengbin/is/src/undefined';
 ```
 
-### url
+### is.url
 
 ```js
 import isUrl from '@lvchengbin/is/src/url';
