@@ -1,1 +1,1 @@
-export default obj => ({}).toString.call( obj ) === '[object Object]';
+export default obj => obj && ( typeof obj === 'object' );

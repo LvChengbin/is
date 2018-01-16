@@ -9,5 +9,5 @@ export default obj => {
     if( isObject( obj ) ) {
         return !Object.keys( obj ).length;
     }
-    return true;
+    return !obj;
 };

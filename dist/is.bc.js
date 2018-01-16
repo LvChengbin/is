@@ -17,7 +17,7 @@ var isAsyncFunction = (function (fn) {
 });
 
 var isFunction = (function (fn) {
-  return {}.toString.call(fn).toLowerCase() === '[object function]' || isAsyncFunction;
+  return {}.toString.call(fn) === '[object Function]' || isAsyncFunction(fn);
 });
 
 var isArrowFunction = (function (fn) {
@@ -35,16 +35,22 @@ var isDate = (function (date) {
 });
 
 var isEmail = (function (str) {
-  return (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(str)
+  return (/^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(str)
   );
 });
 
 var isString = (function (str) {
-  return typeof str === 'string' || s instanceof String;
+  return typeof str === 'string' || str instanceof String;
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
 var isObject = (function (obj) {
-  return {}.toString.call(obj) === '[object Object]';
+  return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
 });
 
 var isEmpty = (function (obj) {
@@ -54,7 +60,7 @@ var isEmpty = (function (obj) {
     if (isObject(obj)) {
         return !Object.keys(obj).length;
     }
-    return true;
+    return !obj;
 });
 
 var isError = (function (e) {
@@ -84,30 +90,29 @@ var isNumber = (function (n) {
 var isInteger = (function (n) {
     var strict = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-    if (isNumber(n)) {
-        return n % 1 === 0;
-    }
+
+    if (isNumber(n, true)) return n % 1 === 0;
 
     if (strict) return false;
 
     if (isString(n)) {
-        return String(parseInt(n)) === n;
+        if (n === '-0') return true;
+        return n.indexOf('.') < 0 && String(parseInt(n)) === n;
     }
 
     return false;
 });
 
-var support = function () {
+var isIterable = (function (obj) {
     try {
-        return !!Symbol.iterator;
+        return isFunction(obj[Symbol.iterator]);
     } catch (e) {
         return false;
     }
-}();
+});
 
-var isIterable = (function (obj) {
-    if (!obj || !support) return false;
-    return isFunction(obj[Symbol.iterator]);
+var isPromise = (function (p) {
+  return p && isFunction(p.then);
 });
 
 var isRegExp = (function (reg) {
@@ -124,9 +129,9 @@ var isTrue = (function (obj) {
     return !!obj;
 });
 
-var isUndefined = (function (u) {
-  return typeof u === 'undefined';
-});
+function isUndefined () {
+    return arguments.length > 0 && typeof arguments[0] === 'undefined';
+}
 
 var isUrl = (function (url) {
     if (!isString(url)) return false;
@@ -153,6 +158,7 @@ var is = {
     iterable: isIterable,
     number: isNumber,
     object: isObject,
+    promise: isPromise,
     regexp: isRegExp,
     string: isString,
     true: isTrue,

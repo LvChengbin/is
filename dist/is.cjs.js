@@ -6,7 +6,7 @@ var isArray = obj => Array.isArray( obj );
 
 var isAsyncFunction = fn => ( {} ).toString.call( fn ) === '[object AsyncFunction]';
 
-var isFunction = fn => ({}).toString.call( fn ).toLowerCase() === '[object function]' || isAsyncFunction;
+var isFunction = fn => ({}).toString.call( fn ) === '[object Function]' || isAsyncFunction( fn );
 
 var isArrowFunction = fn => {
     if( !isFunction( fn ) ) return false;
@@ -17,11 +17,11 @@ var isBoolean = s => typeof s === 'boolean';
 
 var isDate = date => ({}).toString.call( date ) === '[object Date]';
 
-var isEmail = str => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test( str );
+var isEmail = str => /^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test( str );
 
-var isString = str => typeof str === 'string' || s instanceof String;
+var isString = str => typeof str === 'string' || str instanceof String;
 
-var isObject = obj => ({}).toString.call( obj ) === '[object Object]';
+var isObject = obj => obj && ( typeof obj === 'object' );
 
 var isEmpty = obj => {
     if( isArray( obj ) || isString( obj ) ) {
@@ -30,7 +30,7 @@ var isEmpty = obj => {
     if( isObject( obj ) ) {
         return !Object.keys( obj ).length;
     }
-    return true;
+    return !obj;
 };
 
 var isError = e => ({}).toString.call( e ) === '[object Error]';
@@ -52,31 +52,28 @@ var isNumber = ( n, strict = false ) => {
 };
 
 var isInteger = ( n, strict = false ) => {
-    if( isNumber( n ) ) {
-        return n % 1 === 0;
-    }
+
+    if( isNumber( n, true ) ) return n % 1 === 0;
 
     if( strict ) return false;
 
     if( isString( n ) ) {
-        return String( parseInt( n ) ) === n;
+        if( n === '-0' ) return true;
+        return n.indexOf( '.' ) < 0 && String( parseInt( n ) ) === n;
     }
 
     return false;
 }
 
-const support = ( () => {
+var isIterable = obj => {
     try {
-        return !!Symbol.iterator;
+        return isFunction( obj[ Symbol.iterator ] );
     } catch( e ) {
         return false;
     }
-} )();
-
-var isIterable = obj => {
-    if( !obj || !support ) return false;
-    return isFunction( obj[ Symbol.iterator ] );
 };
+
+var isPromise = p => p && isFunction( p.then );
 
 var isRegExp = reg => ({}).toString.call( reg ) === '[object RegExp]';
 
@@ -88,7 +85,9 @@ var isTrue = ( obj, generalized = true ) => {
     return !!obj;
 };
 
-var isUndefined = u => typeof u === 'undefined';
+function isUndefined() {
+    return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
+}
 
 var isUrl = url => {
     if( !isString( url ) ) return false;
@@ -114,6 +113,7 @@ var is = {
     iterable : isIterable,
     number : isNumber,
     object : isObject,
+    promise : isPromise,
     regexp : isRegExp,
     string : isString,
     true : isTrue,

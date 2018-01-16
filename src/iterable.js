@@ -1,14 +1,9 @@
 import isFunction from './function';
 
-const support = ( () => {
+export default obj => {
     try {
-        return !!Symbol.iterator;
+        return isFunction( obj[ Symbol.iterator ] );
     } catch( e ) {
         return false;
     }
-} )();
-
-export default obj => {
-    if( !obj || !support ) return false;
-    return isFunction( obj[ Symbol.iterator ] );
 };

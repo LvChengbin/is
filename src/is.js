@@ -13,6 +13,7 @@ import isInteger from './integer';
 import isIterable from './iterable';
 import isNumber from './number';
 import isObject from './object';
+import isPromise from './promise';
 import isRegExp from './regexp';
 import isString from './string';
 import isTrue from './true';
@@ -35,6 +36,7 @@ export default {
     iterable : isIterable,
     number : isNumber,
     object : isObject,
+    promise : isPromise,
     regexp : isRegExp,
     string : isString,
     true : isTrue,
