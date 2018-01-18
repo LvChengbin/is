@@ -199,3 +199,9 @@ import isUndefined from '@lvchengbin/is/src/undefined';
 ```js
 import isUrl from '@lvchengbin/is/src/url';
 ```
+
+### is.node
+
+```js
+impor isNode from '@lvchengbin/is/src/node';
+```
