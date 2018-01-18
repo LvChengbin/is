@@ -203,4 +203,9 @@ describe( 'is', () => {
         expect( is.url( 'http://333.333.333.333' ) ).toBeFalsy();
         expect( is.url( 'http://www.xx.com:23543535' ) ).toBeFalsy();
     } );
+
+    it( 'is.node', () => {
+        expect( is.node( document.createElement( 'a' ) ) ).toBeTruthy();
+        expect( is.node( document.createTextNode( 'x' ) ) ).toBeTruthy();
+    } );
 } );

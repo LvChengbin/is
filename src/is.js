@@ -19,6 +19,7 @@ import isString from './string';
 import isTrue from './true';
 import isUndefined from './undefined';
 import isUrl from './url';
+import isNode from './node';
 
 export default {
     arguments : isArguments,
@@ -41,5 +42,6 @@ export default {
     string : isString,
     true : isTrue,
     undefined : isUndefined,
-    url : isUrl
+    url : isUrl,
+    node : isNode
 };
