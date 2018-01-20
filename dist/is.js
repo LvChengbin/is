@@ -12,22 +12,22 @@ var isAsyncFunction = fn => ( {} ).toString.call( fn ) === '[object AsyncFunctio
 
 var isFunction = fn => ({}).toString.call( fn ) === '[object Function]' || isAsyncFunction( fn );
 
-var isArrowFunction = fn => {
+var arrowFunction = fn => {
     if( !isFunction( fn ) ) return false;
     return /^(?:function)?\s*\(?[\w\s,]*\)?\s*=>/.test( fn.toString() );
 };
 
 var isBoolean = s => typeof s === 'boolean';
 
-var isDate = date => ({}).toString.call( date ) === '[object Date]';
+var date = date => ({}).toString.call( date ) === '[object Date]';
 
-var isEmail = str => /^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test( str );
+var email = str => /^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test( str );
 
 var isString = str => typeof str === 'string' || str instanceof String;
 
 var isObject = obj => obj && ( typeof obj === 'object' );
 
-var isEmpty = obj => {
+var empty = obj => {
     if( isArray( obj ) || isString( obj ) ) {
         return !obj.length;
     }
@@ -37,7 +37,7 @@ var isEmpty = obj => {
     return !obj;
 };
 
-var isError = e => ({}).toString.call( e ) === '[object Error]';
+var error = e => ({}).toString.call( e ) === '[object Error]';
 
 var isFalse = ( obj, generalized = true ) => {
     if( isBoolean( obj ) || !generalized ) return !obj;
@@ -55,7 +55,7 @@ var isNumber = ( n, strict = false ) => {
     return !isNaN( n ) && !/\.$/.test( n );
 };
 
-var isInteger = ( n, strict = false ) => {
+var integer = ( n, strict = false ) => {
 
     if( isNumber( n, true ) ) return n % 1 === 0;
 
@@ -69,7 +69,7 @@ var isInteger = ( n, strict = false ) => {
     return false;
 }
 
-var isIterable = obj => {
+var iterable = obj => {
     try {
         return isFunction( obj[ Symbol.iterator ] );
     } catch( e ) {
@@ -77,9 +77,9 @@ var isIterable = obj => {
     }
 };
 
-var isPromise = p => p && isFunction( p.then );
+var promise = p => p && isFunction( p.then );
 
-var isRegExp = reg => ({}).toString.call( reg ) === '[object RegExp]';
+var regexp = reg => ({}).toString.call( reg ) === '[object RegExp]';
 
 var isTrue = ( obj, generalized = true ) => {
     if( isBoolean( obj ) || !generalized ) return !!obj;
@@ -93,7 +93,7 @@ function isUndefined() {
     return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
 }
 
-var isUrl = url => {
+var url = url => {
     if( !isString( url ) ) return false;
     if( !/^(https?|ftp):\/\//i.test( url ) ) return false;
     const a = document.createElement( 'a' );
@@ -101,28 +101,31 @@ var isUrl = url => {
     return /^(https?|ftp):/i.test( a.protocol );
 };
 
+var node = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' )
+
 var is = {
     arguments : isArguments,
-    array : isArray,
-    arrowFunction : isArrowFunction,
-    asyncFunction : isAsyncFunction,
+    array: isArray,
+    arrowFunction,
+    asyncFunction: isAsyncFunction,
     boolean : isBoolean,
-    date : isDate,
-    email : isEmail,
-    empty : isEmpty,
-    error : isError,
+    date,
+    email,
+    empty,
+    error,
     false : isFalse,
     function : isFunction,
-    integer : isInteger,
-    iterable : isIterable,
-    number : isNumber,
-    object : isObject,
-    promise : isPromise,
-    regexp : isRegExp,
-    string : isString,
+    integer,
+    iterable,
+    number: isNumber,
+    object: isObject,
+    promise,
+    regexp,
+    string: isString,
     true : isTrue,
     undefined : isUndefined,
-    url : isUrl
+    url,
+    node
 };
 
 return is;

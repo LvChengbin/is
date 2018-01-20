@@ -4,7 +4,7 @@ A JavaScript library for checking the type of a value for browsers.
 
 ## Installing
 
-```
+```js
 npm i @lvchengbin/is --save
 ```
 

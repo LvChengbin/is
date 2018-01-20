@@ -20,7 +20,7 @@ var isFunction = (function (fn) {
   return {}.toString.call(fn) === '[object Function]' || isAsyncFunction(fn);
 });
 
-var isArrowFunction = (function (fn) {
+var arrowFunction = (function (fn) {
     if (!isFunction(fn)) return false;
     return (/^(?:function)?\s*\(?[\w\s,]*\)?\s*=>/.test(fn.toString())
     );
@@ -30,11 +30,11 @@ var isBoolean = (function (s) {
   return typeof s === 'boolean';
 });
 
-var isDate = (function (date) {
+var date = (function (date) {
   return {}.toString.call(date) === '[object Date]';
 });
 
-var isEmail = (function (str) {
+var email = (function (str) {
   return (/^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(str)
   );
 });
@@ -53,7 +53,7 @@ var isObject = (function (obj) {
   return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
 });
 
-var isEmpty = (function (obj) {
+var empty = (function (obj) {
     if (isArray(obj) || isString(obj)) {
         return !obj.length;
     }
@@ -63,7 +63,7 @@ var isEmpty = (function (obj) {
     return !obj;
 });
 
-var isError = (function (e) {
+var error = (function (e) {
   return {}.toString.call(e) === '[object Error]';
 });
 
@@ -87,7 +87,7 @@ var isNumber = (function (n) {
     return !isNaN(n) && !/\.$/.test(n);
 });
 
-var isInteger = (function (n) {
+var integer = (function (n) {
     var strict = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 
@@ -103,7 +103,7 @@ var isInteger = (function (n) {
     return false;
 });
 
-var isIterable = (function (obj) {
+var iterable = (function (obj) {
     try {
         return isFunction(obj[Symbol.iterator]);
     } catch (e) {
@@ -111,11 +111,11 @@ var isIterable = (function (obj) {
     }
 });
 
-var isPromise = (function (p) {
+var promise = (function (p) {
   return p && isFunction(p.then);
 });
 
-var isRegExp = (function (reg) {
+var regexp = (function (reg) {
   return {}.toString.call(reg) === '[object RegExp]';
 });
 
@@ -133,7 +133,7 @@ function isUndefined () {
     return arguments.length > 0 && typeof arguments[0] === 'undefined';
 }
 
-var isUrl = (function (url) {
+var url = (function (url) {
     if (!isString(url)) return false;
     if (!/^(https?|ftp):\/\//i.test(url)) return false;
     var a = document.createElement('a');
@@ -142,28 +142,33 @@ var isUrl = (function (url) {
     );
 });
 
+var node = (function (s) {
+  return (typeof Node === 'undefined' ? 'undefined' : _typeof(Node)) === 'object' ? s instanceof Node : s && (typeof s === 'undefined' ? 'undefined' : _typeof(s)) === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string';
+});
+
 var is = {
     arguments: isArguments,
     array: isArray,
-    arrowFunction: isArrowFunction,
+    arrowFunction: arrowFunction,
     asyncFunction: isAsyncFunction,
     boolean: isBoolean,
-    date: isDate,
-    email: isEmail,
-    empty: isEmpty,
-    error: isError,
+    date: date,
+    email: email,
+    empty: empty,
+    error: error,
     false: isFalse,
     function: isFunction,
-    integer: isInteger,
-    iterable: isIterable,
+    integer: integer,
+    iterable: iterable,
     number: isNumber,
     object: isObject,
-    promise: isPromise,
-    regexp: isRegExp,
+    promise: promise,
+    regexp: regexp,
     string: isString,
     true: isTrue,
     undefined: isUndefined,
-    url: isUrl
+    url: url,
+    node: node
 };
 
 return is;
