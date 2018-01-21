@@ -3,5 +3,5 @@ export default ( n, strict = false ) => {
         return true;
     }
     if( strict ) return false;
-    return !isNaN( n ) && !/\.$/.test( n );
+    return !isNaN( parseFloat( n ) ) && isFinite( n )  && !/\.$/.test( n );
 };

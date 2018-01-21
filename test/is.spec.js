@@ -146,6 +146,15 @@ describe( 'is', () => {
         expect( is.object( function() {} ) ).toBeFalsy();
     } );
 
+    it( 'is.plainObject', () => {
+        expect( is.plainObject( {} ) ).toBeTruthy();
+        expect( is.plainObject( { constructor : 1 } ) ).toBeTruthy();
+        expect( is.plainObject( new Object ) ).toBeTruthy();
+        expect( is.plainObject( new Date ) ).toBeFalsy();
+        expect( is.plainObject( [] ) ).toBeFalsy();
+        expect( is.plainObject( Promise.resolve() ) ).toBeFalsy();
+    } );
+
     it( 'is.promise', () => {
         expect( is.promise( new Promise( () => {} ) ) ).toBeTruthy();
         expect( is.promise( Promise.resolve() ) ).toBeTruthy();
@@ -207,5 +216,27 @@ describe( 'is', () => {
     it( 'is.node', () => {
         expect( is.node( document.createElement( 'a' ) ) ).toBeTruthy();
         expect( is.node( document.createTextNode( 'x' ) ) ).toBeTruthy();
+    } );
+
+    it( 'is.textNode', () => {
+        expect( is.textNode( document.createTextNode( 'ab' ) ) ).toBeTruthy();
+        const div = document.createElement( 'div' );
+        div.innerHTML = 'abc';
+        expect( is.textNode( div.firstChild ) ).toBeTruthy();
+        expect( is.textNode( div ) ).toBeFalsy();
+        expect( is.textNode( '' ) ).toBeFalsy();
+    } );
+
+    it( 'is.elementNode', () => {
+        expect( is.elementNode( document.createElement( 'div' ) ) ).toBeTruthy();
+        expect( is.elementNode( document.createTextNode( 'div' ) ) ).toBeFalsy();
+        expect( is.elementNode( {} ) ).toBeFalsy();
+    } );
+
+    it( 'is.window', () => {
+        expect( is.window( window ) ).toBeTruthy();
+        const iframe = document.createElement( 'iframe' );
+        document.body.appendChild( iframe );
+        expect( is.window( iframe.contentWindow ) ).toBeTruthy();
     } );
 } );

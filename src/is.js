@@ -13,6 +13,7 @@ import integer from './integer';
 import iterable from './iterable';
 import number from './number';
 import object from './object';
+import plainObject from './plain-object';
 import promise from './promise';
 import regexp from './regexp';
 import string from './string';
@@ -20,6 +21,9 @@ import isTrue from './true';
 import isUndefined from './undefined';
 import url from './url';
 import node from './node';
+import textNode from './text-node';
+import elementNode from './element-node';
+import isWindow from './window';
 
 export default {
     arguments : isArguments,
@@ -37,11 +41,15 @@ export default {
     iterable,
     number,
     object,
+    plainObject,
     promise,
     regexp,
     string,
     true : isTrue,
     undefined : isUndefined,
     url,
-    node
+    node,
+    textNode,
+    elementNode,
+    window : isWindow
 };

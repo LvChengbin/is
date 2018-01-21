@@ -159,6 +159,12 @@ import isNumber from '@lvchengbin/is/src/number';
 import isObject from '@lvchengbin/is/src/object';
 ```
 
+### is.plainObject
+
+```js
+import isPlainObject from '@lvchengbin/is/src/plain-object';
+```
+
 ### is.promise
 
 ```js
@@ -204,4 +210,22 @@ import isUrl from '@lvchengbin/is/src/url';
 
 ```js
 impor isNode from '@lvchengbin/is/src/node';
+```
+
+### is.textNode
+
+```js
+impor isTextNode from '@lvchengbin/is/src/text-node';
+```
+
+### is.elementNode
+
+```js
+impor isElementNode from '@lvchengbin/is/src/element-node';
+```
+
+### is.window
+
+```js
+import isWindow from '@lvchengbin/is/src/window';
 ```
