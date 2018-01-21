@@ -25,7 +25,7 @@ var email = str => /^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\
 
 var isString = str => typeof str === 'string' || str instanceof String;
 
-var isObject = obj => obj && ( typeof obj === 'object' );
+var isObject = obj => obj && typeof obj === 'object' && !Array.isArray( obj );
 
 var empty = obj => {
     if( isArray( obj ) || isString( obj ) ) {
@@ -52,7 +52,7 @@ var isNumber = ( n, strict = false ) => {
         return true;
     }
     if( strict ) return false;
-    return !isNaN( n ) && !/\.$/.test( n );
+    return !isNaN( parseFloat( n ) ) && isFinite( n )  && !/\.$/.test( n );
 };
 
 var integer = ( n, strict = false ) => {
@@ -75,6 +75,27 @@ var iterable = obj => {
     } catch( e ) {
         return false;
     }
+};
+
+// https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/test/data/jquery-1.9.1.js#L480
+
+var plainObject = obj => {
+    if( !isObject( obj ) ) {
+        return false;
+    }
+
+    try {
+        if( obj.constructor && !({}).hasOwnProperty.call( obj, 'constructor' ) && !({}).hasOwnProperty.call( obj.constructor.prototype, 'isPrototypeOf' ) ) {
+            return false;
+        }
+    } catch( e ) {
+        return false;
+    }
+
+    let key;
+    for( key in obj ) {} // eslint-disable-line
+
+    return key === undefined || ({}).hasOwnProperty.call( obj, key );
 };
 
 var promise = p => p && isFunction( p.then );
@@ -101,7 +122,13 @@ var url = url => {
     return /^(https?|ftp):/i.test( a.protocol );
 };
 
-var node = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' )
+var isNode = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' )
+
+var textNode = node => isNode( node ) && node.nodeType === 3;
+
+var elementNode = node => isNode( node ) && node.nodeType === 1;
+
+var isWindow = obj => obj && obj === obj.window;
 
 var is = {
     arguments : isArguments,
@@ -119,13 +146,17 @@ var is = {
     iterable,
     number: isNumber,
     object: isObject,
+    plainObject,
     promise,
     regexp,
     string: isString,
     true : isTrue,
     undefined : isUndefined,
     url,
-    node
+    node: isNode,
+    textNode,
+    elementNode,
+    window : isWindow
 };
 
 return is;

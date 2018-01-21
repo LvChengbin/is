@@ -209,19 +209,19 @@ import isUrl from '@lvchengbin/is/src/url';
 ### is.node
 
 ```js
-impor isNode from '@lvchengbin/is/src/node';
+import isNode from '@lvchengbin/is/src/node';
 ```
 
 ### is.textNode
 
 ```js
-impor isTextNode from '@lvchengbin/is/src/text-node';
+import isTextNode from '@lvchengbin/is/src/text-node';
 ```
 
 ### is.elementNode
 
 ```js
-impor isElementNode from '@lvchengbin/is/src/element-node';
+import isElementNode from '@lvchengbin/is/src/element-node';
 ```
 
 ### is.window

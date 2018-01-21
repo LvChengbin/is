@@ -50,7 +50,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 };
 
 var isObject = (function (obj) {
-  return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
+  return obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && !Array.isArray(obj);
 });
 
 var empty = (function (obj) {
@@ -84,7 +84,7 @@ var isNumber = (function (n) {
         return true;
     }
     if (strict) return false;
-    return !isNaN(n) && !/\.$/.test(n);
+    return !isNaN(parseFloat(n)) && isFinite(n) && !/\.$/.test(n);
 });
 
 var integer = (function (n) {
@@ -109,6 +109,27 @@ var iterable = (function (obj) {
     } catch (e) {
         return false;
     }
+});
+
+// https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/test/data/jquery-1.9.1.js#L480
+
+var plainObject = (function (obj) {
+    if (!isObject(obj)) {
+        return false;
+    }
+
+    try {
+        if (obj.constructor && !{}.hasOwnProperty.call(obj, 'constructor') && !{}.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
+            return false;
+        }
+    } catch (e) {
+        return false;
+    }
+
+    var key = void 0;
+    for (key in obj) {} // eslint-disable-line
+
+    return key === undefined || {}.hasOwnProperty.call(obj, key);
 });
 
 var promise = (function (p) {
@@ -142,8 +163,20 @@ var url = (function (url) {
     );
 });
 
-var node = (function (s) {
+var isNode = (function (s) {
   return (typeof Node === 'undefined' ? 'undefined' : _typeof(Node)) === 'object' ? s instanceof Node : s && (typeof s === 'undefined' ? 'undefined' : _typeof(s)) === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string';
+});
+
+var textNode = (function (node) {
+  return isNode(node) && node.nodeType === 3;
+});
+
+var elementNode = (function (node) {
+  return isNode(node) && node.nodeType === 1;
+});
+
+var isWindow = (function (obj) {
+  return obj && obj === obj.window;
 });
 
 var is = {
@@ -162,13 +195,17 @@ var is = {
     iterable: iterable,
     number: isNumber,
     object: isObject,
+    plainObject: plainObject,
     promise: promise,
     regexp: regexp,
     string: isString,
     true: isTrue,
     undefined: isUndefined,
     url: url,
-    node: node
+    node: isNode,
+    textNode: textNode,
+    elementNode: elementNode,
+    window: isWindow
 };
 
 return is;
