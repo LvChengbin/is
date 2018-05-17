@@ -7,7 +7,13 @@
     "globals" : {
         "define" : true,
         "describe" : true,
+        "xdescribe" : true,
         "it" : true,
+        "xit" : true,
+        "beforeAll" : true,
+        "beforeEach" : true,
+        "afterAll" : true,
+        "afterEach" : true,
         "expect" : true,
         "J" : true,
         "Jaunty" : true

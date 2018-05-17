@@ -24,6 +24,9 @@ import node from './node';
 import textNode from './text-node';
 import elementNode from './element-node';
 import isWindow from './window';
+import isClass from './class';
+import isIPv4 from './ipv4';
+import generator from './generator';
 
 export default {
     arguments : isArguments,
@@ -51,5 +54,8 @@ export default {
     node,
     textNode,
     elementNode,
-    window : isWindow
+    window : isWindow,
+    class : isClass,
+    ipv4 : isIPv4,
+    generator
 };

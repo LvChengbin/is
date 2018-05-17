@@ -1,4 +1,5 @@
 import is from '../src/is';
+import Promise from '@lvchengbin/Promise';
 
 describe( 'is', () => {
     it( 'is.arguments', () => {
@@ -15,21 +16,6 @@ describe( 'is', () => {
         expect( is.array( [] ) ).toBeTruthy();
     } );
 
-    it( 'is.arrowFunction', () => {
-        expect( is.arrowFunction( () => {} ) ).toBeTruthy();
-        expect( is.arrowFunction( () => 1 ) ).toBeTruthy();
-        expect( is.arrowFunction( () => {
-            return 1;
-        } ) ).toBeTruthy();
-        expect( is.arrowFunction( '() => 1' ) ).toBeFalsy();
-        expect( is.arrowFunction( function() {} ) ).toBeFalsy();
-    } );
-
-    it( 'is.asyncFunction', () => {
-        expect( is.asyncFunction( async () => {} ) ).toBeTruthy();
-        expect( is.asyncFunction( () => {} ) ).toBeFalsy();
-        expect( is.asyncFunction( function() {} ) ).toBeFalsy();
-    } );
 
     it( 'is.boolean', () => {
         expect( is.boolean( true ) ).toBeTruthy();
@@ -114,23 +100,13 @@ describe( 'is', () => {
         expect( is.integer( '-0', true ) ).toBeFalsy();
     } );
 
-    it( 'is.iterable', () => {
-        function* iterable() { yield 1; }
-        expect( is.iterable( [] ) ).toBeTruthy();
-        expect( is.iterable( '' ) ).toBeTruthy();
-        expect( is.iterable( 'a' ) ).toBeTruthy();
-        expect( is.iterable( new Map() ) ).toBeTruthy();
-        expect( is.iterable( new Set() ) ).toBeTruthy();
-        expect( is.iterable( iterable() ) ).toBeTruthy();
-        ( function() { 
-            expect( is.iterable( arguments ) ).toBeTruthy();
-        } )();
-    } );
 
     it( 'is.number', () => {
         expect( is.number( 1 ) ).toBeTruthy();
         expect( is.number( '1' ) ).toBeTruthy();
         expect( is.number( '1.0' ) ).toBeTruthy();
+        expect( is.number( '1E1' ) ).toBeTruthy();
+        expect( is.number( 1E1 ) ).toBeTruthy();
         expect( is.number( '1.0.0' ) ).toBeFalsy();
         expect( is.number( 'a' ) ).toBeFalsy();
         expect( is.number( '1', true ) ).toBeFalsy();
@@ -238,5 +214,28 @@ describe( 'is', () => {
         const iframe = document.createElement( 'iframe' );
         document.body.appendChild( iframe );
         expect( is.window( iframe.contentWindow ) ).toBeTruthy();
+    } );
+
+    it( 'is.class', () => {
+        class A {}
+        expect( is.class( A ) ).toBeTruthy();
+        function a(){}
+        expect( is.class( a ) ).toBeFalsy();
+        const str = 'class A';
+        expect( is.class( str ) ).toBeFalsy();
+    } );
+
+    it( 'is.ipv4', () => {
+        expect( is.ipv4() ).toBeFalsy();
+        expect( is.ipv4( '0.0.0.0' ) ).toBeTruthy();
+        expect( is.ipv4( '10.10.10.10' ) ).toBeTruthy();
+        expect( is.ipv4( '255.255.255.255' ) ).toBeTruthy();
+        expect( is.ipv4( '256.0.0.0' ) ).toBeFalsy();
+        expect( is.ipv4( '1.1.1.1.1' ) ).toBeFalsy();
+        expect( is.ipv4( 'string' ) ).toBeFalsy();
+        expect( is.ipv4( '1.2.3' ) ).toBeFalsy();
+        expect( is.ipv4( 'a.b.c.d' ) ).toBeFalsy();
+        expect( is.ipv4( '1..1..1..1.' ) ).toBeFalsy();
+        expect( is.ipv4( '4.4.4.4.' ) ).toBeFalsy();
     } );
 } );

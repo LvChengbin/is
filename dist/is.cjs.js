@@ -4,9 +4,33 @@ var isArguments = obj => ({}).toString.call( obj ) === '[object Arguments]';
 
 var isArray = obj => Array.isArray( obj );
 
+/**
+ * async function
+ *
+ * @syntax: 
+ *  async function() {}
+ *  async () => {}
+ *  async x() => {}
+ *
+ * @compatibility
+ * IE: no
+ * Edge: >= 15
+ * Android: >= 5.0
+ *
+ */
+
 var isAsyncFunction = fn => ( {} ).toString.call( fn ) === '[object AsyncFunction]';
 
 var isFunction = fn => ({}).toString.call( fn ) === '[object Function]' || isAsyncFunction( fn );
+
+/**
+ * arrow function
+ *
+ * Syntax: () => {}
+ *
+ * IE : no
+ * Android : >= 5.0
+ */
 
 var arrowFunction = fn => {
     if( !isFunction( fn ) ) return false;
@@ -51,7 +75,7 @@ var isNumber = ( n, strict = false ) => {
     return !isNaN( parseFloat( n ) ) && isFinite( n )  && !/\.$/.test( n );
 };
 
-var integer = ( n, strict = false ) => {
+var isInteger = ( n, strict = false ) => {
 
     if( isNumber( n, true ) ) return n % 1 === 0;
 
@@ -64,6 +88,17 @@ var integer = ( n, strict = false ) => {
 
     return false;
 }
+
+/**
+ * iterable
+ *
+ * @compatibility
+ *
+ * IE: no
+ * Edge: >= 13
+ * Android: >= 5.0
+ *  
+ */
 
 var iterable = obj => {
     try {
@@ -110,12 +145,42 @@ function isUndefined() {
     return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
 }
 
+var isIPv4 = ip => {
+    if( !isString( ip ) ) return false;
+    const pieces = ip.split( '.' );
+    if( pieces.length !== 4 ) return false;
+
+    for( const i of pieces ) {
+        if( !isInteger( i ) ) return false;
+        if( i < 0 || i > 255 ) return false;
+    }
+    return true;
+};
+
 var url = url => {
     if( !isString( url ) ) return false;
     if( !/^(https?|ftp):\/\//i.test( url ) ) return false;
     const a = document.createElement( 'a' );
     a.href = url;
-    return /^(https?|ftp):/i.test( a.protocol );
+
+    /**
+     * In IE, sometimes a.protocol would be an unknown type
+     * Getting a.protocol will throw Error: Invalid argument in IE
+     */
+    try {
+        if( !isString( a.protocol ) ) return false;
+    } catch( e ) {
+        return false;
+    }
+
+    if( !/^(https?|ftp):/i.test( a.protocol ) ) return false;
+
+    /**
+     * In IE, invalid IP address could be a valid hostname
+     */
+    if( /^(\d+\.){3}\d+$/.test( a.hostname ) && !isIPv4( a.hostname ) ) return false;
+
+    return true;
 };
 
 var isNode = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' )
@@ -125,6 +190,16 @@ var textNode = node => isNode( node ) && node.nodeType === 3;
 var elementNode = node => isNode( node ) && node.nodeType === 1;
 
 var isWindow = obj => obj && obj === obj.window;
+
+var isClass = obj => isFunction( obj ) && /^\s*class\s+/.test( obj.toString() );
+
+var generator = fn => {
+    try {
+        return new Function( 'fn', 'return fn.constructor === (function*(){}).constructor' )( fn );
+    } catch( e ) {
+        return false;
+    }
+}
 
 var is = {
     arguments : isArguments,
@@ -138,7 +213,7 @@ var is = {
     error,
     false : isFalse,
     function : isFunction,
-    integer,
+    integer: isInteger,
     iterable,
     number: isNumber,
     object: isObject,
@@ -152,7 +227,10 @@ var is = {
     node: isNode,
     textNode,
     elementNode,
-    window : isWindow
+    window : isWindow,
+    class : isClass,
+    ipv4 : isIPv4,
+    generator
 };
 
 module.exports = is;

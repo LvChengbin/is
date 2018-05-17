@@ -4,6 +4,7 @@
 process.env.CHROME_BIN = require( 'puppeteer' ).executablePath();
 
 const resolve = require( 'rollup-plugin-node-resolve' );
+//const buble = require( 'rollup-plugin-buble' );
 
 //const babel = require( 'rollup-plugin-babel' );
 
@@ -40,7 +41,15 @@ module.exports = function(config) {
                 resolve( {
                     module : true,
                     jsnext : true
+                } ),
+                /*
+                buble( {
+                    transforms : {
+                        arrow : true,
+                        dangerousForOf : true
+                    }
                 } )
+                */
             ],
             output : {
                 format : 'iife'
@@ -67,7 +76,9 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [ 'ChromeHeadless' ], //PhantomJS
+        browsers: [ 
+            'ChromeHeadless'
+        ], //PhantomJS
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

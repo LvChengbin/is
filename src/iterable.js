@@ -1,3 +1,14 @@
+/**
+ * iterable
+ *
+ * @compatibility
+ *
+ * IE: no
+ * Edge: >= 13
+ * Android: >= 5.0
+ *  
+ */
+
 import isFunction from './function';
 
 export default obj => {
