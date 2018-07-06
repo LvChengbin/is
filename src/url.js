@@ -1,8 +1,13 @@
 import isString from './string';
 import isIPv4 from './ipv4';
 
+/**
+ * <user>:<password> can only be supported with FTP scheme on IE9/10/11
+ */
+
 export default url => {
     if( !isString( url ) ) return false;
+
     if( !/^(https?|ftp):\/\//i.test( url ) ) return false;
     const a = document.createElement( 'a' );
     a.href = url;

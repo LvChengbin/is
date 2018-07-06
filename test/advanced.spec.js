@@ -2,6 +2,8 @@ import isGenerator from '../src/generator';
 import isArrowFunction from '../src/arrow-function';
 import isAsyncFunction from '../src/async-function';
 import isIterable from '../src/iterable';
+import isClass from '../src/class';
+import isFunction from '../src/function';
 
 describe( 'generator', () => {
     it( 'true', () => {
@@ -54,5 +56,26 @@ describe( 'iterable', () => {
         ( function() { 
             expect( isIterable( arguments ) ).toBeTruthy();
         } )();
+    } );
+} );
+
+describe( 'class', () => {
+    it( 'true', () => {
+        class A {}
+        expect( isClass( A ) ).toBeTruthy();
+        class B extends A{}
+        expect( isClass( B ) ).toBeTruthy();
+    } );
+    it( 'false', () => {
+        function a(){}
+        expect( isClass( a ) ).toBeFalsy();
+        const str = 'class A';
+        expect( isClass( str ) ).toBeFalsy();
+    } );
+} );
+
+describe( 'is.function', () => {
+    it( 'async function', () => {
+        expect( isFunction( async function() {} ) ).toBeTruthy();
     } );
 } );

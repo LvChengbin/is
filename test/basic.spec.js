@@ -1,5 +1,9 @@
-import is from '../src/is';
 import Promise from '@lvchengbin/Promise';
+import is from '../src/is';
+import ipv4 from '../src/ipv4';
+import ipv6 from '../src/ipv6';
+import privateIPv4 from '../src/private-ipv4';
+
 
 describe( 'is', () => {
     it( 'is.arguments', () => {
@@ -78,7 +82,6 @@ describe( 'is', () => {
     it( 'is.function', () => {
         expect( is.function( () => {} ) ).toBeTruthy();
         expect( is.function( function() {} ) ).toBeTruthy();
-        expect( is.function( async function() {} ) ).toBeTruthy();
         expect( is.function( Array.isArray ) ).toBeTruthy();
         expect( is.function( new Object ) ).toBeFalsy();
         expect( is.function( 'function' ) ).toBeFalsy();
@@ -175,13 +178,16 @@ describe( 'is', () => {
         expect( is.undefined( undefined ) ).toBeTruthy();
     } );
 
-    it( 'is.url', () => {
+    it( 'is.url true', () => {
         expect( is.url( 'http://a.b' ) ).toBeTruthy();
         expect( is.url( 'https://a.b' ) ).toBeTruthy();
         expect( is.url( 'ftp://a.b' ) ).toBeTruthy();
         expect( is.url( 'https://a.b?x=1&y=2#xx' ) ).toBeTruthy();
         expect( is.url( 'http://localhost' ) ).toBeTruthy();
-        expect( is.url( 'http://u:p@x.x:1000' ) ).toBeTruthy();
+        expect( is.url( 'ftp://u:p@x.x:1000' ) ).toBeTruthy();
+        expect( is.url( 'ftp://u:p@x.x' ) ).toBeTruthy();
+    } );
+    it( 'is.url false', () => {
         expect( is.url( 'httpc://a.b?x=1&y=2#xx' ) ).toBeFalsy();
         expect( is.url( '://a.b?x=1&y=2#xx' ) ).toBeFalsy();
         expect( is.url( 'www.xx.com' ) ).toBeFalsy();
@@ -212,30 +218,134 @@ describe( 'is', () => {
     it( 'is.window', () => {
         expect( is.window( window ) ).toBeTruthy();
         const iframe = document.createElement( 'iframe' );
+        iframe.style.display = 'none';
         document.body.appendChild( iframe );
         expect( is.window( iframe.contentWindow ) ).toBeTruthy();
     } );
 
-    it( 'is.class', () => {
-        class A {}
-        expect( is.class( A ) ).toBeTruthy();
-        function a(){}
-        expect( is.class( a ) ).toBeFalsy();
-        const str = 'class A';
-        expect( is.class( str ) ).toBeFalsy();
-    } );
+} );
 
-    it( 'is.ipv4', () => {
-        expect( is.ipv4() ).toBeFalsy();
-        expect( is.ipv4( '0.0.0.0' ) ).toBeTruthy();
-        expect( is.ipv4( '10.10.10.10' ) ).toBeTruthy();
-        expect( is.ipv4( '255.255.255.255' ) ).toBeTruthy();
-        expect( is.ipv4( '256.0.0.0' ) ).toBeFalsy();
-        expect( is.ipv4( '1.1.1.1.1' ) ).toBeFalsy();
-        expect( is.ipv4( 'string' ) ).toBeFalsy();
-        expect( is.ipv4( '1.2.3' ) ).toBeFalsy();
-        expect( is.ipv4( 'a.b.c.d' ) ).toBeFalsy();
-        expect( is.ipv4( '1..1..1..1.' ) ).toBeFalsy();
-        expect( is.ipv4( '4.4.4.4.' ) ).toBeFalsy();
-    } );
+const validIPv4 = [
+    '0.0.0.0',
+    '255.255.255.255',
+    '10.10.10.10',
+    '1.1.1.1',
+    '200.200.200.200'
+];
+
+const invalidIPv4 = [
+    'a.0.0.0',
+    '0..0.0.0',
+    '100.100.100.100.100',
+    '0.0.0.256',
+    'string',
+    'a.b.c.d',
+    '1..1..1..1.',
+    '4.4.4.4.',
+    '1.1.1',
+    ''
+];
+
+describe( 'valid IPv4 addresses', () => {
+    for( let item of validIPv4 ) {
+        it( item, () => {
+            expect( ipv4( item ) ).toBeTruthy(); 
+        } );
+    }
+} );
+
+describe( 'invalid IPv4 addresses', () => {
+    for( let item of invalidIPv4 ) {
+        it( item, () => {
+            expect( ipv4( item ) ).toBeFalsy(); 
+        } );
+    }
+} );
+
+const validPrivateIPv4 = [
+    '10.0.0.0',
+    '10.0.0.1',
+    '10.255.255.255',
+    '172.16.0.1',
+    '172.31.255.254',
+    '172.17.4.55',
+    '192.168.0.0',
+    '192.168.43.56',
+    '192.168.255.255'
+];
+
+const invalidPrivateIPv4 = [
+    '2.2.2.2',
+    '0.0.0.0',
+    '255.255.255.255',
+    'not an IPv4 address',
+    '172.32.0.0',
+    '172.15.0.0'
+];
+
+
+describe( 'private IPv4 addresses', () => {
+    for( let item of validPrivateIPv4 ) {
+        it( item, () => {
+            expect( privateIPv4( item ) ).toBeTruthy(); 
+        } );
+    }
+} );
+
+describe( 'not private IPv4 addresses', () => {
+    for( let item of invalidPrivateIPv4 ) {
+        it( item, () => {
+            expect( privateIPv4( item ) ).toBeFalsy(); 
+        } );
+    }
+} );
+
+const validIPv6 = [
+    '2001:DB8:0:0:8:800:200C:417A',
+    'FF01:0:0:0:0:0:0:101',
+    '0:0:0:0:0:0:0:1',
+    '0:0:0:0:0:0:0:0',
+    'FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF',
+    '2001:DB8::8:800:200C:417A',
+    'FF01::101',
+    '::1',
+    '100::',
+    '::',
+    'ABCD:EF01:2345:6789:ABCD:EF01:2345:6789',
+    '0:0:0:0:0:0:13.1.68.3',
+    '0:0:0:0:0:FFFF:127.144.52.38',
+    '::13.1.68.3',
+    '::FFFF:129.144.52.38'
+];
+
+const invalidIPv6 = [
+    '2001:DB8:0:0:0:8:800:200C:417A',
+    '20011:DB8:0:0:0:8:800:200C:417A',
+    '0',
+    '',
+    '1.1.1.1',
+    ':1.1.1.1',
+    '1.1.1.1:',
+    '.1.1.1.',
+    ':::1',
+    '::1.1.1',
+    '::1..1.1',
+    'FF01::1::101',
+    'FFFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF'
+];
+
+describe( 'valid IPv6 addresses', () => {
+    for( let item of validIPv6 ) {
+        it( item, () => {
+            expect( ipv6( item ) ).toBeTruthy(); 
+        } );
+    }
+} );
+
+describe( 'invalid IPv6 addresses', () => {
+    for( let item of invalidIPv6 ) {
+        it( item, () => {
+            expect( ipv6( item ) ).toBeFalsy(); 
+        } );
+    }
 } );

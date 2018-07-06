@@ -18,11 +18,11 @@ export default [ {
     plugins : [
         resolve( {
             module : true,
-            jsnext : true
+            jsnext : true,
+            extensions : [ '.mjs', '.js' ]
         } ),
         buble( {
             transforms : {
-                arrow : true,
                 dangerousForOf : true
             }
         } )

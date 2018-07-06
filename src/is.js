@@ -25,7 +25,10 @@ import textNode from './text-node';
 import elementNode from './element-node';
 import isWindow from './window';
 import isClass from './class';
+import isIP from './ip';
 import isIPv4 from './ipv4';
+import isIPv6 from './ipv6';
+import isPrivateIPv4 from './private-ipv4';
 import generator from './generator';
 
 export default {
@@ -56,6 +59,9 @@ export default {
     elementNode,
     window : isWindow,
     class : isClass,
+    ip : isIP,
     ipv4 : isIPv4,
+    ipv6 : isIPv6,
+    privateIPv4 : isPrivateIPv4,
     generator
 };

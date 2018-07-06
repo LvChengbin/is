@@ -50,8 +50,8 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 
 | Method | Importing | Desc |
 |:--|:--|:--|
-| is.arguments | import isArguments from '@lvchengbin/is/src/arguments' |  |
-| is.array | import isArray from '@lvchengbin/is/src/array' | |
+| is.arguments | import isArguments from '@lvchengbin/is/src/arguments' |
+| is.array | import isArray from '@lvchengbin/is/src/array' |
 | is.arrowFunction | import isArrowFunction from '@lvchengbin/is/src/arrow-function' |
 | is.asyncFunction | import isAsyncFunction from '@lvchengbin/is/src/async-function' |
 | is.boolean | import isBoolean from '@lvchengbin/is/src/boolean' |
@@ -60,7 +60,7 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.email | import isEmail from '@lvchengbin/is/src/email' |
 | is.empty | import isEmpty from '@lvchengbin/is/src/empty' | 
 | is.error | import isError from '@lvchengbin/is/src/error' |
-| is.false | import isFalse from '@lvchengbin/is/src/false' | |
+| is.false | import isFalse from '@lvchengbin/is/src/false' |
 | is.function | import isFunction from '@lvchengbin/is/src/function' |
 | is.integer | import isInteger from '@lvchengbin/is/src/integer' |
 | is.iterable | import isIterable from '@lvchengbin/is/src/iterable' |
@@ -79,9 +79,8 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.window | import isWindow from '@lvchengbin/is/src/window' |
 | is.class | import isClass from '@lvchengbin/is/src/class' |
 | is.ipv4 | import isIPv4 from '@lvchengbin/is/src/ipv4' |
-| is.ipv6 | import isIPv6 from '@lvchengbin/is/src/ipv6' | ???? |
-| is.ip | import isIP from '@lvchengbin/is/src/ip' | ???? |
-| is.domain | import isDomain from '@lvchengbin/is/src/domain' | ???? |
+| is.ipv6 | import isIPv6 from '@lvchengbin/is/src/ipv6' |
+| is.ip | import isIP from '@lvchengbin/is/src/ip' |
 | is.generator | import isGenerator from '@lvchengbin/is/src/generator' |
 
 ### is.date

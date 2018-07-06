@@ -149,7 +149,7 @@ function isUndefined() {
     return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
 }
 
-var isIPv4 = ip => {
+var ipv4 = ip => {
     if( !isString( ip ) ) return false;
     const pieces = ip.split( '.' );
     if( pieces.length !== 4 ) return false;
@@ -161,8 +161,13 @@ var isIPv4 = ip => {
     return true;
 };
 
+/**
+ * <user>:<password> can only be supported with FTP scheme on IE9/10/11
+ */
+
 var url = url => {
     if( !isString( url ) ) return false;
+
     if( !/^(https?|ftp):\/\//i.test( url ) ) return false;
     const a = document.createElement( 'a' );
     a.href = url;
@@ -182,7 +187,7 @@ var url = url => {
     /**
      * In IE, invalid IP address could be a valid hostname
      */
-    if( /^(\d+\.){3}\d+$/.test( a.hostname ) && !isIPv4( a.hostname ) ) return false;
+    if( /^(\d+\.){3}\d+$/.test( a.hostname ) && !ipv4( a.hostname ) ) return false;
 
     return true;
 };
@@ -196,6 +201,78 @@ var elementNode = node => isNode( node ) && node.nodeType === 1;
 var isWindow = obj => obj && obj === obj.window;
 
 var isClass = obj => isFunction( obj ) && /^\s*class\s+/.test( obj.toString() );
+
+var ipv6 = ip => {
+    /**
+     * An IPv6 address should have at least one colon(:)
+     */
+    if( ip.indexOf( ':' ) < 0 ) return false;
+
+    /**
+     * An IPv6 address can start or end with '::', but cannot start or end with a single colon.
+     */
+    if( /(^:[^:])|([^:]:$)/.test( ip ) ) return false;
+
+    /**
+     * An IPv6 address should consist of colon(:), dot(.) and hexadecimel
+     */
+    if( !/^[0-9A-Fa-f:.]{2,}$/.test( ip ) ) return false;
+
+    /**
+     * An IPv6 address should not have any sequence like:
+     * 1. a hexadecimal that it's length greater than 4
+     * 2. three or more continous colons
+     * 3. two or more continous dots
+     */
+    if( /[0-9A-Fa-f]{5,}|:{3,}|\.{2,}/.test( ip ) ) return false;
+
+    /**
+     * In an IPv6 address, the "::" can only appear once.
+     */
+    if( ip.split( '::' ).length > 2 ) return false;
+
+    /**
+     * if the IPv6 address is in mixed form.
+     */
+    if( ip.indexOf( '.' ) > -1 ) {
+        const lastColon = ip.lastIndexOf( ':' );
+        const hexadecimal = ip.substr( 0, lastColon );
+        const decimal = ip.substr( lastColon + 1 );
+        /**
+         * the decimal part should be an valid IPv4 address.
+         */
+        if( !ipv4( decimal ) ) return false;
+
+        /**
+         * the length of the hexadecimal part should less than 6.
+         */
+        if( hexadecimal.split( ':' ).length > 6 ) return false;
+    } else {
+        /**
+         * An IPv6 address that is not in mixed form can at most have 8 hexadecimal sequences.
+         */
+        if( ip.split( ':' ).length > 8 ) return false;
+    }
+    return true;
+};
+
+var isIP = ip => ipv4( ip ) || ipv6( ip );
+
+/**
+ * Private IPv4 address
+ *
+ * 10.0.0.0 ~ 10.255.255.255
+ * 172.16.0.0 ~ 172.31.255.255
+ * 192.168.0.0 ~ 192.168.255.255
+ */
+
+var isPrivateIPv4 = ip => {
+    if( !ipv4( ip ) ) return false;
+    if( /^10\..*/.test( ip ) ) return true;
+    if( /^192\.168\..*/.test( ip ) ) return true;
+    if( /^172\.(1[6-9]|2[0-9]|3[0-1])\..*/.test( ip ) ) return true;
+    return false;
+};
 
 var generator = fn => {
     try {
@@ -233,7 +310,10 @@ var is = {
     elementNode,
     window : isWindow,
     class : isClass,
-    ipv4 : isIPv4,
+    ip : isIP,
+    ipv4 : ipv4,
+    ipv6 : ipv6,
+    privateIPv4 : isPrivateIPv4,
     generator
 };
 
