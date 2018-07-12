@@ -1,3 +1,3 @@
 import isNode from './node';
 
-export default node => isNode( node ) && node.nodeType === 3;
+export default node => node && node.nodeType === 3 && isNode( node );

@@ -204,9 +204,11 @@ function url (url) {
 
 function isNode (s) { return ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' ); }
 
-function textNode (node) { return isNode( node ) && node.nodeType === 3; }
+function textNode (node) { return node && node.nodeType === 3 && isNode( node ); }
 
-function elementNode (node) { return isNode( node ) && node.nodeType === 1; }
+function elementNode (node) { return node && node.nodeType === 1 && isNode( node ); }
+
+function fragmentNode (node) { return node && node.nodeType === 11 && isNode( node ); }
 
 function isWindow (obj) { return obj && obj === obj.window; }
 
@@ -318,6 +320,7 @@ var is = {
     node: isNode,
     textNode: textNode,
     elementNode: elementNode,
+    fragmentNode: fragmentNode,
     window : isWindow,
     class : isClass,
     ip : isIP,

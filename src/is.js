@@ -23,6 +23,7 @@ import url from './url';
 import node from './node';
 import textNode from './text-node';
 import elementNode from './element-node';
+import fragmentNode from './fragment-node';
 import isWindow from './window';
 import isClass from './class';
 import isIP from './ip';
@@ -57,6 +58,7 @@ export default {
     node,
     textNode,
     elementNode,
+    fragmentNode,
     window : isWindow,
     class : isClass,
     ip : isIP,

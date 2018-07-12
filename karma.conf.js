@@ -6,7 +6,6 @@ const  argv = require( 'optimist' ).argv;
 const resolve = require( 'rollup-plugin-node-resolve' );
 const buble = require( 'rollup-plugin-buble' );
 
-
 const rollupPlugins = [
     resolve( {
         module : true,
@@ -36,7 +35,6 @@ module.exports = function(config) {
         // Most versions of PhantomJS do not suppport ES5 and ES6, so add es6-shim here to make sure all
         // test cases could be executed in PhantomJS
         frameworks: [ 'jasmine' ],
-
 
         // list of files / patterns to load in the browser
         files : ( () => {

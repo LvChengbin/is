@@ -194,9 +194,11 @@ var url = url => {
 
 var isNode = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' )
 
-var textNode = node => isNode( node ) && node.nodeType === 3;
+var textNode = node => node && node.nodeType === 3 && isNode( node );
 
-var elementNode = node => isNode( node ) && node.nodeType === 1;
+var elementNode = node => node && node.nodeType === 1 && isNode( node );
+
+var fragmentNode = node => node && node.nodeType === 11 && isNode( node );
 
 var isWindow = obj => obj && obj === obj.window;
 
@@ -308,6 +310,7 @@ var is = {
     node: isNode,
     textNode,
     elementNode,
+    fragmentNode,
     window : isWindow,
     class : isClass,
     ip : isIP,
