@@ -76,6 +76,7 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.node | import isNode from '@lvchengbin/is/src/node' |
 | is.textNode | import isTextNode from '@lvchengbin/is/src/text-node' |
 | is.elementNode | import isElementNode from '@lvchengbin/is/src/element-node' |
+| is.fragmentNode | import isFragmentNode from '@lvchengbin/is/src/fragment-node' |
 | is.window | import isWindow from '@lvchengbin/is/src/window' |
 | is.class | import isClass from '@lvchengbin/is/src/class' |
 | is.ipv4 | import isIPv4 from '@lvchengbin/is/src/ipv4' |
