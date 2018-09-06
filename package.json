@@ -1,6 +1,6 @@
 {
     "name": "@lvchengbin/is",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "description": "A library, which is possible to be imported as ES6 module separately, for checking the type of a value.",
     "keywords": "is check types es6",
     "repository": {

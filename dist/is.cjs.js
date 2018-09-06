@@ -87,7 +87,7 @@ var isInteger = ( n, strict = false ) => {
     }
 
     return false;
-}
+};
 
 /**
  * iterable
@@ -110,7 +110,7 @@ var iterable = obj => {
 
 // https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/test/data/jquery-1.9.1.js#L480
 
-var plainObject = obj => {
+var isPlainObject = obj => {
     if( !isObject( obj ) ) {
         return false;
     }
@@ -181,14 +181,14 @@ var url = url => {
     if( !/^(https?|ftp):/i.test( a.protocol ) ) return false;
 
     /**
-     * In IE, invalid IP address could be a valid hostname
+     * In IE, invalid IP address is allowed
      */
     if( /^(\d+\.){3}\d+$/.test( a.hostname ) && !ipv4( a.hostname ) ) return false;
 
     return true;
 };
 
-var isNode = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' )
+var isNode = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' );
 
 var textNode = node => node && node.nodeType === 3 && isNode( node );
 
@@ -254,7 +254,7 @@ var ipv6 = ip => {
     return true;
 };
 
-var isIP = ip => ipv4( ip ) || ipv6( ip );
+var ip = ip => ipv4( ip ) || ipv6( ip );
 
 /**
  * Private IPv4 address
@@ -264,7 +264,7 @@ var isIP = ip => ipv4( ip ) || ipv6( ip );
  * 192.168.0.0 ~ 192.168.255.255
  */
 
-var isPrivateIPv4 = ip => {
+var privateIPv4 = ip => {
     if( !ipv4( ip ) ) return false;
     if( /^10\..*/.test( ip ) ) return true;
     if( /^192\.168\..*/.test( ip ) ) return true;
@@ -278,7 +278,18 @@ var generator = fn => {
     } catch( e ) {
         return false;
     }
-}
+};
+
+var oneDimensionalArray = ( arr, strict ) => {
+    if( !isArray( arr ) ) return false;
+
+    for( const item of arr ) {
+        if( !item ) continue;
+        if( strict && isPlainObject( item ) ) return false;
+        if( isArray( item ) ) return false;
+    }
+    return true;
+};
 
 var is = {
     arguments : isArguments,
@@ -296,7 +307,7 @@ var is = {
     iterable,
     number: isNumber,
     object: isObject,
-    plainObject,
+    plainObject: isPlainObject,
     promise,
     regexp,
     string: isString,
@@ -309,11 +320,12 @@ var is = {
     fragmentNode,
     window : isWindow,
     class : isClass,
-    ip : isIP,
-    ipv4 : ipv4,
-    ipv6 : ipv6,
-    privateIPv4 : isPrivateIPv4,
-    generator
+    ip,
+    ipv4,
+    ipv6,
+    privateIPv4,
+    generator,
+    oneDimensionalArray
 };
 
 module.exports = is;
