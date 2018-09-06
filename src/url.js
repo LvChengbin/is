@@ -25,7 +25,7 @@ export default url => {
     if( !/^(https?|ftp):/i.test( a.protocol ) ) return false;
 
     /**
-     * In IE, invalid IP address could be a valid hostname
+     * In IE, invalid IP address is allowed
      */
     if( /^(\d+\.){3}\d+$/.test( a.hostname ) && !isIPv4( a.hostname ) ) return false;
 

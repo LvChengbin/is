@@ -1,0 +1,4 @@
+# setting ignore files
+point=@is
+ignore=node_modules,logs,.*
+editor=vim

@@ -83,6 +83,7 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.ipv6 | import isIPv6 from '@lvchengbin/is/src/ipv6' |
 | is.ip | import isIP from '@lvchengbin/is/src/ip' |
 | is.generator | import isGenerator from '@lvchengbin/is/src/generator' |
+| is.oneDimensionalArray | import isOneDimensionalArray from '@lvchengbin/is/src/one-dimensional-array |
 
 ### is.date
 

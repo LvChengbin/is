@@ -26,11 +26,12 @@ import elementNode from './element-node';
 import fragmentNode from './fragment-node';
 import isWindow from './window';
 import isClass from './class';
-import isIP from './ip';
-import isIPv4 from './ipv4';
-import isIPv6 from './ipv6';
-import isPrivateIPv4 from './private-ipv4';
+import ip from './ip';
+import ipv4 from './ipv4';
+import ipv6 from './ipv6';
+import privateIPv4 from './private-ipv4';
 import generator from './generator';
+import oneDimensionalArray from './one-dimensional-array';
 
 export default {
     arguments : isArguments,
@@ -61,9 +62,10 @@ export default {
     fragmentNode,
     window : isWindow,
     class : isClass,
-    ip : isIP,
-    ipv4 : isIPv4,
-    ipv6 : isIPv6,
-    privateIPv4 : isPrivateIPv4,
-    generator
+    ip,
+    ipv4,
+    ipv6,
+    privateIPv4,
+    generator,
+    oneDimensionalArray
 };

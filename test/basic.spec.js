@@ -223,6 +223,18 @@ describe( 'is', () => {
         expect( is.window( iframe.contentWindow ) ).toBeTruthy();
     } );
 
+    it( 'is.oneDimensionalArray', () => {
+        expect( is.oneDimensionalArray( [] ) ).toBeTruthy();
+        expect( is.oneDimensionalArray( [ 1, 2, 3, 'a', 'b', 'c' ] ) ).toBeTruthy();
+        expect( is.oneDimensionalArray( [ 1, 2, 3, {} ] ) ).toBeTruthy();
+        expect( is.oneDimensionalArray( [ 1, 2, 3, function() {} ] ) ).toBeTruthy();
+        expect( is.oneDimensionalArray( [ 1, 2, 3, [] ] ) ).toBeFalsy();
+        expect( is.oneDimensionalArray( {} ) ).toBeFalsy();
+        expect( is.oneDimensionalArray( 'abc' ) ).toBeFalsy();
+        expect( is.oneDimensionalArray( [ 1, 2, 3, function() {} ], true ) ).toBeTruthy();
+        expect( is.oneDimensionalArray( [ 1, 2, 3, null ], true ) ).toBeTruthy();
+        expect( is.oneDimensionalArray( [ 1, 2, 3, {} ], true ) ).toBeFalsy();
+    } );
 } );
 
 const validIPv4 = [

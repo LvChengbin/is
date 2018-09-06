@@ -1,45 +1,45 @@
 {
-  "name": "@lvchengbin/is",
-  "version": "0.0.18",
-  "description": "A library, which is possible to be imported as ES6 module separately, for checking the type of a value.",
-  "keywords": "is check types es6",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:LvChengbin/is.git"
-  },
-  "devDependencies": {
-    "@lvchengbin/promise": "^1.1.5",
-    "buble": "^0.19.3",
-    "eslint": "^4.14.0",
-    "jasmine-core": "^2.8.0",
-    "karma": "^2.0.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "^1.1.1",
-    "karma-rollup-preprocessor": "^5.0.2",
-    "optimist": "^0.6.1",
-    "pre-commit": "^1.2.2",
-    "puppeteer": "^0.13.0",
-    "rollup": "^0.53.3",
-    "rollup-plugin-buble": "^0.19.2",
-    "rollup-plugin-node-resolve": "^3.0.2"
-  },
-  "scripts": {
-    "build": "rollup -c",
-    "test": "karma start",
-    "test-basic": "karma start --file=test/basic.spec.js",
-    "test-basic-es5": "karma start --file=test/basic.spec.js --es5=true",
-    "test-advanced": "karma start --file=test/advanced.spec.js",
-    "prepublish": "npm run build",
-    "lint": "eslint ./ --cache --ignore-path .eslintignore",
-    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
-  },
-  "pre-commit": [
-    "precommit-msg",
-    "lint"
-  ],
-  "main": "dist/is.cjs.js",
-  "jsnext:main": "src/is.js",
-  "author": "LvChengbin",
-  "license": "MIT",
-  "dependencies": {}
+    "name": "@lvchengbin/is",
+    "version": "0.0.18",
+    "description": "A library, which is possible to be imported as ES6 module separately, for checking the type of a value.",
+    "keywords": "is check types es6",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:LvChengbin/is.git"
+    },
+    "devDependencies": {
+        "@lvchengbin/promise": "^1.1.7",
+        "buble": "^0.19.3",
+        "eslint": "^4.19.1",
+        "jasmine-core": "^2.99.1",
+        "karma": "^2.0.4",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-jasmine": "^1.1.2",
+        "karma-rollup-preprocessor": "^5.1.1",
+        "optimist": "^0.6.1",
+        "pre-commit": "^1.2.2",
+        "puppeteer": "^0.13.0",
+        "rollup": "^0.53.4",
+        "rollup-plugin-buble": "^0.19.2",
+        "rollup-plugin-node-resolve": "^3.3.0"
+    },
+    "scripts": {
+        "build": "rollup -c",
+        "test": "karma start",
+        "test-basic": "karma start --file=test/basic.spec.js",
+        "test-basic-es5": "karma start --file=test/basic.spec.js --es5=true",
+        "test-advanced": "karma start --file=test/advanced.spec.js",
+        "prepublish": "npm run build",
+        "lint": "eslint ./ --cache --ignore-path .eslintignore",
+        "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
+    },
+    "pre-commit": [
+        "precommit-msg",
+        "lint"
+    ],
+    "main": "dist/is.cjs.js",
+    "jsnext:main": "src/is.js",
+    "author": "LvChengbin",
+    "license": "MIT",
+    "dependencies": {}
 }
