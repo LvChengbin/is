@@ -307,6 +307,10 @@
         return true;
     }
 
+    function isMap (obj) { return ({}).toString.call( obj ) === '[object Map]'; }
+
+    function isSet (obj) { return ({}).toString.call( obj ) === '[object Set]'; }
+
     var is = {
         arguments : isArguments,
         array: isArray,
@@ -341,7 +345,9 @@
         ipv6: ipv6,
         privateIPv4: privateIPv4,
         generator: generator,
-        oneDimensionalArray: oneDimensionalArray
+        oneDimensionalArray: oneDimensionalArray,
+        map : isMap,
+        set : isSet
     };
 
     return is;

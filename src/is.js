@@ -32,6 +32,8 @@ import ipv6 from './ipv6';
 import privateIPv4 from './private-ipv4';
 import generator from './generator';
 import oneDimensionalArray from './one-dimensional-array';
+import isMap from './map';
+import isSet from './set';
 
 export default {
     arguments : isArguments,
@@ -67,5 +69,7 @@ export default {
     ipv6,
     privateIPv4,
     generator,
-    oneDimensionalArray
+    oneDimensionalArray,
+    map : isMap,
+    set : isSet
 };

@@ -48,42 +48,43 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 
 ## Method List
 
-| Method | Importing | Desc |
-|:--|:--|:--|
+| Method | Importing |
+|:--|:--|
 | is.arguments | import isArguments from '@lvchengbin/is/src/arguments' |
 | is.array | import isArray from '@lvchengbin/is/src/array' |
 | is.arrowFunction | import isArrowFunction from '@lvchengbin/is/src/arrow-function' |
 | is.asyncFunction | import isAsyncFunction from '@lvchengbin/is/src/async-function' |
 | is.boolean | import isBoolean from '@lvchengbin/is/src/boolean' |
+| is.class | import isClass from '@lvchengbin/is/src/class' |
 | is.date | import isDate from '@lvchengbin/is/src/date' |
-| is.dateString | import isDateString from '@lvchengbin/is/src/date-string' | ???? |
+| is.elementNode | import isElementNode from '@lvchengbin/is/src/element-node' |
 | is.email | import isEmail from '@lvchengbin/is/src/email' |
 | is.empty | import isEmpty from '@lvchengbin/is/src/empty' | 
 | is.error | import isError from '@lvchengbin/is/src/error' |
 | is.false | import isFalse from '@lvchengbin/is/src/false' |
+| is.fragmentNode | import isFragmentNode from '@lvchengbin/is/src/fragment-node' |
 | is.function | import isFunction from '@lvchengbin/is/src/function' |
+| is.generator | import isGenerator from '@lvchengbin/is/src/generator' |
 | is.integer | import isInteger from '@lvchengbin/is/src/integer' |
+| is.ip | import isIP from '@lvchengbin/is/src/ip' |
+| is.ipv4 | import isIPv4 from '@lvchengbin/is/src/ipv4' |
+| is.ipv6 | import isIPv6 from '@lvchengbin/is/src/ipv6' |
 | is.iterable | import isIterable from '@lvchengbin/is/src/iterable' |
+| is.map | import isMap from '@lvchengbin/is/src/map' |
+| is.node | import isNode from '@lvchengbin/is/src/node' |
 | is.number | import isNumber from '@lvchengbin/is/src/number' |
 | is.object | import isObject from '@lvchengbin/is/src/object' |
+| is.oneDimensionalArray | import isOneDimensionalArray from '@lvchengbin/is/src/one-dimensional-array' |
 | is.plainObject | import isPlainObject from '@lvchengbin/is/src/plain-object' |
 | is.promise | import isPromise from '@lvchengbin/is/src/promise' |
 | is.regexp | import isRegexp from '@lvchengbin/is/src/regexp' |
+| is.set | import isSet from '@lvchengbin/is/src/set' |
 | is.string | import isString from '@lvchengbin/is/src/string' |
 | is.true | import isTrue from '@lvchengbin/is/src/true' |
 | is.undefined | import isUndefined from '@lvchengbin/is/src/undefined' |
 | is.url | import isUrl from '@lvchengbin/is/src/url' |
-| is.node | import isNode from '@lvchengbin/is/src/node' |
 | is.textNode | import isTextNode from '@lvchengbin/is/src/text-node' |
-| is.elementNode | import isElementNode from '@lvchengbin/is/src/element-node' |
-| is.fragmentNode | import isFragmentNode from '@lvchengbin/is/src/fragment-node' |
 | is.window | import isWindow from '@lvchengbin/is/src/window' |
-| is.class | import isClass from '@lvchengbin/is/src/class' |
-| is.ipv4 | import isIPv4 from '@lvchengbin/is/src/ipv4' |
-| is.ipv6 | import isIPv6 from '@lvchengbin/is/src/ipv6' |
-| is.ip | import isIP from '@lvchengbin/is/src/ip' |
-| is.generator | import isGenerator from '@lvchengbin/is/src/generator' |
-| is.oneDimensionalArray | import isOneDimensionalArray from '@lvchengbin/is/src/one-dimensional-array |
 
 ### is.date
 

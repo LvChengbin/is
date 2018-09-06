@@ -291,6 +291,10 @@ var oneDimensionalArray = ( arr, strict ) => {
     return true;
 };
 
+var isMap = obj => ({}).toString.call( obj ) === '[object Map]';
+
+var isSet = obj => ({}).toString.call( obj ) === '[object Set]';
+
 var is = {
     arguments : isArguments,
     array: isArray,
@@ -325,7 +329,9 @@ var is = {
     ipv6,
     privateIPv4,
     generator,
-    oneDimensionalArray
+    oneDimensionalArray,
+    map : isMap,
+    set : isSet
 };
 
 module.exports = is;

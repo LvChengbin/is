@@ -4,6 +4,8 @@ import isAsyncFunction from '../src/async-function';
 import isIterable from '../src/iterable';
 import isClass from '../src/class';
 import isFunction from '../src/function';
+import isSet from '../src/set';
+import isMap from '../src/map';
 
 describe( 'generator', () => {
     it( 'true', () => {
@@ -78,4 +80,16 @@ describe( 'is.function', () => {
     it( 'async function', () => {
         expect( isFunction( async function() {} ) ).toBeTruthy();
     } );
+} );
+
+describe( 'Map & Set', () => {
+    it( 'Set', () => {
+        expect( isSet( new Set() ) ).toBeTruthy();        
+        expect( isSet( [] ) ).toBeFalsy();        
+    } ); 
+
+    it( 'Map', () => {
+        expect( isMap( new Map() ) ).toBeTruthy();        
+        expect( isMap( {} ) ).toBeFalsy();        
+    } ); 
 } );
