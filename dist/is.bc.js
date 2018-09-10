@@ -157,6 +157,17 @@
         return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
     }
 
+    /**
+     * BNF of IPv4 address
+     *
+     * IPv4address = dec-octet "." dec-octet "." dec-octet "." dec-octet
+     *
+     * dec-octet = DIGIT                ; 0-9
+     *           / %x31-39 DIGIT        ; 10-99
+     *           / "1" 2DIGIT           ; 100-199
+     *           / "2" 2DIGIT           ; 200-249
+     *           / "25" %x30-35         ; 250-255
+     */
     function ipv4 (ip) {
         if( !isString( ip ) ) { return false; }
         var pieces = ip.split( '.' );
@@ -172,47 +183,24 @@
     }
 
     /**
-     * <user>:<password> can only be supported with FTP scheme on IE9/10/11
+     * BNF of IPv6:
+     *
+     * IPv6address =                             6( h16 ":" ) ls32
+     *              /                       "::" 5( h16 ":" ) ls32
+     *              / [               h16 ] "::" 4( h16 ":" ) ls32
+     *              / [ *1( h16 ":" ) h16 ] "::" 3( h16 ":" ) ls32
+     *              / [ *2( h16 ":" ) h16 ] "::" 2( h16 ":" ) ls32
+     *              / [ *3( h16 ":" ) h16 ] "::"    h16 ":"   ls32
+     *              / [ *4( h16 ":" ) h16 ] "::"              ls32
+     *              / [ *5( h16 ":" ) h16 ] "::"              h16
+     *              / [ *6( h16 ":" ) h16 ] "::"
+     *
+     *  ls32 = ( h16 ":" h16 ) / IPv4address
+     *       ; least-significant 32 bits of address
+     *
+     *  h16 = 1 * 4HEXDIG
+     *      ; 16 bits of address represented in hexadcimal
      */
-
-    function url (url) {
-        if( !isString( url ) ) { return false; }
-
-        if( !/^(https?|ftp):\/\//i.test( url ) ) { return false; }
-        var a = document.createElement( 'a' );
-        a.href = url;
-
-        /**
-         * In IE, sometimes a.protocol would be an unknown type
-         * Getting a.protocol will throw Error: Invalid argument in IE
-         */
-        try {
-            if( !isString( a.protocol ) ) { return false; }
-        } catch( e ) {
-            return false;
-        }
-
-        if( !/^(https?|ftp):/i.test( a.protocol ) ) { return false; }
-
-        /**
-         * In IE, invalid IP address is allowed
-         */
-        if( /^(\d+\.){3}\d+$/.test( a.hostname ) && !ipv4( a.hostname ) ) { return false; }
-
-        return true;
-    }
-
-    function isNode (s) { return ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' ); }
-
-    function textNode (node) { return node && node.nodeType === 3 && isNode( node ); }
-
-    function elementNode (node) { return node && node.nodeType === 1 && isNode( node ); }
-
-    function fragmentNode (node) { return node && node.nodeType === 11 && isNode( node ); }
-
-    function isWindow (obj) { return obj && obj === obj.window; }
-
-    function isClass (obj) { return isFunction( obj ) && /^\s*class\s+/.test( obj.toString() ); }
 
     function ipv6 (ip) {
         /**
@@ -231,10 +219,10 @@
         if( !/^[0-9A-Fa-f:.]{2,}$/.test( ip ) ) { return false; }
 
         /**
-         * An IPv6 address should not have any sequence like:
-         * 1. a hexadecimal that it's length greater than 4
-         * 2. three or more continous colons
-         * 3. two or more continous dots
+         * An IPv6 address should not include any sequences bellow:
+         * 1. a hexadecimal with length greater than 4
+         * 2. three or more consecutive colons
+         * 3. two or more consecutive dots
          */
         if( /[0-9A-Fa-f]{5,}|:{3,}|\.{2,}/.test( ip ) ) { return false; }
 
@@ -267,6 +255,198 @@
         }
         return true;
     }
+
+    function encodePathname( pathname ) {
+        if( !pathname ) { return pathname; }
+        var splitted = pathname.split( '/' );
+        var encoded = [];
+        for( var i = 0, list = splitted; i < list.length; i += 1 ) {
+            var item = list[i];
+
+            encoded.push( encodeURIComponent( item ) );
+        }
+        return encoded.join( '/' );
+    }
+
+    function encodeSearch( search ) {
+        if( !search ) { return search; }
+        return '?' + search.substr( 1 ).replace( /[^&=]/g, function (m) { return encodeURIComponent( m ); } );
+    }
+
+    /**
+     * <user>:<password> can only be supported with FTP scheme on IE9/10/11
+     *
+     * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
+     * reserved = gen-delims / sub-delims
+     * gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@"
+     * sub-delims = "!" / "$" / "&" / "'" / "(" / ")"
+     *              / "*" / "+" / "," / ";" / "="
+     *
+     * pct-encoded = "%" HEXDIG HEXDIG
+     */
+
+    /**
+     * protocols that always contain a // bit and must have non-empty path
+     */
+    var slashedProtocol = [ 'http:', 'https:', 'ftp:', 'gopher:', 'file:' ];
+
+    function url (url) {
+        var assign;
+
+        if( !isString( url ) ) { return false; }
+        /**
+         * scheme = ALPHA * ( ALPHA / DIGIT / "+" / "-" / "." )
+         */
+        var splitted = url.match( /^([a-zA-Z][a-zA-Z0-9+-.]*:)([^?]*)(\?[^#]*)?(#.*)?/ );
+        if( !splitted ) { return false; }
+        var scheme = splitted[1];
+        var hier = splitted[2];
+        var search = splitted[3]; if ( search === void 0 ) search = '';
+        var hash = splitted[4]; if ( hash === void 0 ) hash = '';
+        var protocol = scheme.toLowerCase();
+        var username = '';
+        var password = '';
+        var href = protocol;
+        var origin = protocol;
+        var port = '';
+        var pathname = '/';
+        var hostname = '';
+
+        if( slashedProtocol.indexOf( protocol ) > -1 ) {
+            if( /^[:/?#[]@]*$/.test( hier ) ) { return false; }
+            hier = '//' + hier.replace( /^\/+/, '' );
+            href += '//';
+            origin += '//';
+        }
+
+        /**
+         * hier-part = "//" authority path-abempty
+         *              / path-absolute
+         *              / path-rootless
+         *              / path-empty
+         * authority = [ userinfo "@" ] host [ ":" port ]
+         * userinfo = *( unreserved / pct-encoded /sub-delims / ":" )
+         *
+         * path = path-abempty      ; begins with "/" or is empty
+         *      / path-absolute     ; begins with "/" but not "//"
+         *      / path-noscheme     ; begins with a non-colon segment
+         *      / path-rootless     ; begins with a segment
+         *      / path-empty        ; zero characters
+         *
+         * path-abempty     = *( "/" segment )
+         * path-absolute    = "/" [ segment-nz *( "/" segment ) ]
+         * path-noscheme    = segment-nz-nc *( "/" segment )
+         * path-rootless    = segment-nz *( "/" segment )
+         * path-empty       = 0<pchar>
+         * segment          = *pchar
+         * segment-nz       = 1*pchar
+         * setment-nz-nc    = 1*( unreserved / pct-encoded /sub-delims / "@" )
+         *                  ; non-zero-length segment without any colon ":"
+         *
+         * pchar            = unreserved / pct-encoded /sub-delims / ":" / "@"
+         *
+         * host = IP-literal / IPv4address / reg-name
+         * IP-leteral = "[" ( IPv6address / IpvFuture ) "]"
+         * IPvFuture = "v" 1*HEXDIG "." 1*( unreserved / sub-delims / ":" )
+         * reg-name = *( unreserved / pct-encoded / sub-delims )
+         *
+         * PORT = *DIGIT
+         * A TCP header is limited to 16-bits for the source/destination port field.
+         * @see http://www.faqs.org/rfcs/rfc793.html
+         */
+
+        /**
+         * "//" authority path-abempty
+         */
+        if( slashedProtocol.indexOf( protocol ) > -1 ) {
+            var matches = hier.substr( 2 ).match( /(?:(?:(?:([^:/?#[\]@]*):([^:/?#[\]@]*))?@)|^)([^:/?#[\]@]+|\[[^/?#[\]@]+\])(?::([0-9]+))?(\/.*|\/)?$/ );
+            if( !matches ) { return false; }
+            (assign = matches, username = assign[1], username = username === void 0 ? '' : username, password = assign[2], password = password === void 0 ? '' : password, hostname = assign[3], hostname = hostname === void 0 ? '' : hostname, port = assign[4], port = port === void 0 ? '' : port, pathname = assign[5], pathname = pathname === void 0 ? '/' : pathname);
+            if( port && port > 65535 ) { return false; }
+
+            if( username || password ) {
+                if( username ) {
+                    href += username;
+                }
+
+                if( password ) {
+                    href += ':' + password;
+                }
+                href += '@';
+            }
+
+            /**
+             * To check the format of IPv4
+             * includes: 1.1.1.1, 1.1, 1.1.
+             * excludes: .1.1, 1.1..
+             */
+            if( /^[\d.]+$/.test( hostname ) && hostname.charAt( 0 ) !== '.' && hostname.indexOf( '..' ) < 0 ) {
+                var ip = hostname.replace( /\.+$/, '' );
+                if( !ipv4( ip ) ) {
+                    var pieces = ip.split( '.' );
+                    if( pieces.length > 4 ) { return false; }
+                    /**
+                     * 300 => 0.0.1.44
+                     * 2 => 0.0.0.2
+                     */
+                    if( pieces.length === 1 ) {
+                        var n = pieces[ 0 ];
+                        ip = [ ( n >> 24 ) & 0xff, ( n >> 16 ) & 0xff, ( n >> 8 ) & 0xff, n & 0xff ].join( '.' );
+                    } else {
+                        var l = pieces.length;
+                        if( l < 4 ) {
+                            pieces.splice.apply( pieces, [ l - 1, 0 ].concat( ( Array( 3 - l ).join( 0 ).split( '' ) ) ) );
+                        }
+                        ip = pieces.join( '.' );
+                    }
+                    if( !ipv4( ip ) ) { return false; }
+                }
+                hostname = ip;
+            } else if( hostname.charAt( 0 ) === '[' ) {
+                if( !ipv6( hostname.substr( 1, hostname.length - 2 ) ) ) { return false; }
+            }
+
+            href += hostname;
+            origin += hostname;
+            if( port ) {
+                href += ':' + port;
+                origin += ':' + port;
+            }
+            href += pathname;
+        } else {
+            pathname = hier;
+            href += hier;
+            origin = null;
+        }
+
+        href += search + hash;
+
+        return {
+            href: href,
+            protocol: protocol,
+            origin: origin,
+            username: username,
+            password: password,
+            hostname: hostname,
+            host : hostname + ( port ? ':' + port : '' ),
+            pathname : encodePathname( pathname ),
+            search : encodeSearch( search ),
+            hash: hash,
+            port: port
+        };
+    }
+
+    function isNode (s) { return ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' ); }
+
+    function textNode (node) { return node && node.nodeType === 3 && isNode( node ); }
+
+    function elementNode (node) { return node && node.nodeType === 1 && isNode( node ); }
+
+    function fragmentNode (node) { return node && node.nodeType === 11 && isNode( node ); }
+
+    function isWindow (obj) { return obj && obj === obj.window; }
+
+    function isClass (obj) { return isFunction( obj ) && /^\s*class\s+/.test( obj.toString() ); }
 
     function ip (ip) { return ipv4( ip ) || ipv6( ip ); }
 

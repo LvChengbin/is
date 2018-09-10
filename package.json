@@ -1,8 +1,21 @@
 {
     "name": "@lvchengbin/is",
-    "version": "0.0.22",
+    "version": "0.0.23",
     "description": "A library, which is possible to be imported as ES6 module separately, for checking the type of a value.",
-    "keywords": "is check types es6",
+    "keywords": [
+        "is",
+        "check",
+        "types",
+        "es6",
+        "valid-url",
+        "url",
+        "isArrowFunction",
+        "arrow function",
+        "valid-ip",
+        "ipv6",
+        "isAsyncFunction",
+        "async fucntion"
+    ],
     "repository": {
         "type": "git",
         "url": "git@github.com:LvChengbin/is.git"
@@ -27,6 +40,7 @@
         "build": "rollup -c",
         "test": "karma start",
         "test-basic": "karma start --file=test/basic.spec.js",
+        "test-url-es5": "karma start --file=test/url.spec.js --es5=true",
         "test-basic-es5": "karma start --file=test/basic.spec.js --es5=true",
         "test-advanced": "karma start --file=test/advanced.spec.js",
         "prepublish": "npm run build",
