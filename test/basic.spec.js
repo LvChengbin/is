@@ -178,23 +178,6 @@ describe( 'is', () => {
         expect( is.undefined( undefined ) ).toBeTruthy();
     } );
 
-    it( 'is.url true', () => {
-        expect( is.url( 'http://a.b' ) ).toBeTruthy();
-        expect( is.url( 'https://a.b' ) ).toBeTruthy();
-        expect( is.url( 'ftp://a.b' ) ).toBeTruthy();
-        expect( is.url( 'https://a.b?x=1&y=2#xx' ) ).toBeTruthy();
-        expect( is.url( 'http://localhost' ) ).toBeTruthy();
-        expect( is.url( 'ftp://u:p@x.x:1000' ) ).toBeTruthy();
-        expect( is.url( 'ftp://u:p@x.x' ) ).toBeTruthy();
-    } );
-    it( 'is.url false', () => {
-        expect( is.url( 'httpc://a.b?x=1&y=2#xx' ) ).toBeFalsy();
-        expect( is.url( '://a.b?x=1&y=2#xx' ) ).toBeFalsy();
-        expect( is.url( 'www.xx.com' ) ).toBeFalsy();
-        expect( is.url( 'http://333.333.333.333' ) ).toBeFalsy();
-        expect( is.url( 'http://www.xx.com:23543535' ) ).toBeFalsy();
-    } );
-
     it( 'is.node', () => {
         expect( is.node( document.createElement( 'a' ) ) ).toBeTruthy();
         expect( is.node( document.createTextNode( 'x' ) ) ).toBeTruthy();
