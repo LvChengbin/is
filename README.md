@@ -70,6 +70,7 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.ipv4 | import isIPv4 from '@lvchengbin/is/src/ipv4' |
 | is.ipv6 | import isIPv6 from '@lvchengbin/is/src/ipv6' |
 | is.iterable | import isIterable from '@lvchengbin/is/src/iterable' |
+| is.leapYear | import isLeapYear from '@lvchengbin/is/src/leap-year' |
 | is.map | import isMap from '@lvchengbin/is/src/map' |
 | is.node | import isNode from '@lvchengbin/is/src/node' |
 | is.number | import isNumber from '@lvchengbin/is/src/number' |

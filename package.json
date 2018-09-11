@@ -14,7 +14,8 @@
         "valid-ip",
         "ipv6",
         "isAsyncFunction",
-        "async fucntion"
+        "async fucntion",
+        "date"
     ],
     "repository": {
         "type": "git",

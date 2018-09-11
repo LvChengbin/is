@@ -34,6 +34,7 @@ import generator from './generator';
 import oneDimensionalArray from './one-dimensional-array';
 import isMap from './map';
 import isSet from './set';
+import leapYear from './leap-year';
 
 export default {
     arguments : isArguments,
@@ -71,5 +72,6 @@ export default {
     generator,
     oneDimensionalArray,
     map : isMap,
-    set : isSet
+    set : isSet,
+    leapYear : leapYear
 };
