@@ -472,6 +472,8 @@
 
     var isSet = obj => ({}).toString.call( obj ) === '[object Set]';
 
+    var leapYear = year => !!( !( year % 400 ) || ( !( year % 4 ) && ( year % 100 ) ) );
+
     var is = {
         arguments : isArguments,
         array: isArray,
@@ -508,7 +510,8 @@
         generator,
         oneDimensionalArray,
         map : isMap,
-        set : isSet
+        set : isSet,
+        leapYear : leapYear
     };
 
     return is;
