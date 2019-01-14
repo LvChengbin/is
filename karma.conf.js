@@ -76,7 +76,8 @@ module.exports = function(config) {
         rollupPreprocessor : {
             plugins : rollupPlugins,
             output : {
-                format : 'iife'
+                format : 'iife',
+                name : 'is'
             }
         },
 

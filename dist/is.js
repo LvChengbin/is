@@ -1,10 +1,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    (global.IS = factory());
-}(this, (function () { 'use strict';
-
-    var isArguments = obj => ({}).toString.call( obj ) === '[object Arguments]';
+    (global = global || self, global.IS = factory());
+}(this, function () { 'use strict';
 
     var isArray = obj => Array.isArray( obj );
 
@@ -41,9 +39,52 @@
         return /^(?:function)?\s*\(?[\w\s,]*\)?\s*=>/.test( fn.toString() );
     };
 
-    var isBoolean = s => typeof s === 'boolean';
+    var isNumber = ( n, strict = false ) => {
+        if( ({}).toString.call( n ).toLowerCase() === '[object number]' ) {
+            return true;
+        }
+        if( strict ) return false;
+        return !isNaN( parseFloat( n ) ) && isFinite( n )  && !/\.$/.test( n );
+    };
+
+    /**
+     * to check if a number/letter is between two numbers/letters
+     */
+    var between = ( n, lower, upper, mode = 0 ) => {
+        if( !isNumber( n ) ) {
+            n = n.charCodeAt( 0 );
+            lower = lower.charCodeAt( 0 );
+            upper = upper.charCodeAt( 0 );
+        }
+
+        if( upper < lower ) return false;
+
+        // closed interval [lower, upper]
+        if( mode === 0 ) {
+            return n >= lower && n <= upper;
+        }
+
+        // open interval (lower, upper)
+        if( mode === 1 ) {
+            return n > lower && n < upper;
+        }
+
+        // half-closed interval [lower, upper)
+        if( mode === 2 ) {
+            return n >= lower && n < upper;
+        }
+
+        // half-closed interval (lower, upper]
+        if( mode === 3 ) {
+            return n > lower && n <= upper;
+        }
+    };
 
     var date = date => ({}).toString.call( date ) === '[object Date]';
+
+    var isNode = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' );
+
+    var elementNode = node => node && node.nodeType === 1 && isNode( node );
 
     var email = str => /^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test( str );
 
@@ -63,20 +104,14 @@
 
     var error = e => ({}).toString.call( e ) === '[object Error]';
 
-    var isFalse = ( obj, generalized = true ) => {
-        if( isBoolean( obj ) || !generalized ) return !obj;
-        if( isString( obj ) ) {
-            return [ 'false', 'no', '0', '', 'nay', 'n', 'disagree' ].indexOf( obj.toLowerCase() ) > -1;
-        }
-        return !obj;
-    };
+    var fragmentNode = node => node && node.nodeType === 11 && isNode( node );
 
-    var isNumber = ( n, strict = false ) => {
-        if( ({}).toString.call( n ).toLowerCase() === '[object number]' ) {
-            return true;
+    var generator = fn => {
+        try {
+            return new Function( 'fn', 'return fn.constructor === (function*(){}).constructor' )( fn );
+        } catch( e ) {
+            return false;
         }
-        if( strict ) return false;
-        return !isNaN( parseFloat( n ) ) && isFinite( n )  && !/\.$/.test( n );
     };
 
     var isInteger = ( n, strict = false ) => {
@@ -94,62 +129,6 @@
     };
 
     /**
-     * iterable
-     *
-     * @compatibility
-     *
-     * IE: no
-     * Edge: >= 13
-     * Android: >= 5.0
-     *  
-     */
-
-    var iterable = obj => {
-        try {
-            return isFunction( obj[ Symbol.iterator ] );
-        } catch( e ) {
-            return false;
-        }
-    };
-
-    // https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/test/data/jquery-1.9.1.js#L480
-
-    var isPlainObject = obj => {
-        if( !isObject( obj ) ) {
-            return false;
-        }
-
-        try {
-            if( obj.constructor && !({}).hasOwnProperty.call( obj, 'constructor' ) && !({}).hasOwnProperty.call( obj.constructor.prototype, 'isPrototypeOf' ) ) {
-                return false;
-            }
-        } catch( e ) {
-            return false;
-        }
-
-        let key;
-        for( key in obj ) {} // eslint-disable-line
-
-        return key === undefined || ({}).hasOwnProperty.call( obj, key );
-    };
-
-    var promise = p => p && isFunction( p.then );
-
-    var regexp = reg => ({}).toString.call( reg ) === '[object RegExp]';
-
-    var isTrue = ( obj, generalized = true ) => {
-        if( isBoolean( obj ) || !generalized ) return !!obj;
-        if( isString( obj ) ) {
-            return [ 'true', 'yes', 'ok', '1', 'yea', 'yep', 'y', 'agree' ].indexOf( obj.toLowerCase() ) > -1;
-        }
-        return !!obj;
-    };
-
-    function isUndefined() {
-        return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
-    }
-
-    /**
      * BNF of IPv4 address
      *
      * IPv4address = dec-octet "." dec-octet "." dec-octet "." dec-octet
@@ -160,7 +139,7 @@
      *           / "2" 2DIGIT           ; 200-249
      *           / "25" %x30-35         ; 250-255
      */
-    var ipv4 = ip => {
+    var isIPv4 = ip => {
         if( !isString( ip ) ) return false;
         const pieces = ip.split( '.' );
         if( pieces.length !== 4 ) return false;
@@ -192,7 +171,7 @@
      *      ; 16 bits of address represented in hexadcimal
      */
 
-    var ipv6 = ip => {
+    var isIPv6 = ip => {
         /**
          * An IPv6 address should have at least one colon(:)
          */
@@ -231,7 +210,7 @@
             /**
              * the decimal part should be an valid IPv4 address.
              */
-            if( !ipv4( decimal ) ) return false;
+            if( !isIPv4( decimal ) ) return false;
 
             /**
              * the length of the hexadecimal part should less than 6.
@@ -245,6 +224,115 @@
         }
         return true;
     };
+
+    var ip = ip => isIPv4( ip ) || isIPv6( ip );
+
+    var isArguments = obj => ({}).toString.call( obj ) === '[object Arguments]';
+
+    var isBoolean = s => typeof s === 'boolean';
+
+    var isClass = obj => isFunction( obj ) && /^\s*class\s+/.test( obj.toString() );
+
+    var isFalse = ( obj, generalized = true ) => {
+        if( isBoolean( obj ) || !generalized ) return !obj;
+        if( isString( obj ) ) {
+            return [ 'false', 'no', '0', '', 'nay', 'n', 'disagree' ].indexOf( obj.toLowerCase() ) > -1;
+        }
+        return !obj;
+    };
+
+    var isMap = obj => ({}).toString.call( obj ) === '[object Map]';
+
+    var isSet = obj => ({}).toString.call( obj ) === '[object Set]';
+
+    var isTrue = ( obj, generalized = true ) => {
+        if( isBoolean( obj ) || !generalized ) return !!obj;
+        if( isString( obj ) ) {
+            return [ 'true', 'yes', 'ok', '1', 'yea', 'yep', 'y', 'agree' ].indexOf( obj.toLowerCase() ) > -1;
+        }
+        return !!obj;
+    };
+
+    function isUndefined() {
+        return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
+    }
+
+    var isWindow = obj => obj && obj === obj.window;
+
+    /**
+     * iterable
+     *
+     * @compatibility
+     *
+     * IE: no
+     * Edge: >= 13
+     * Android: >= 5.0
+     *  
+     */
+
+    var iterable = obj => {
+        try {
+            return isFunction( obj[ Symbol.iterator ] );
+        } catch( e ) {
+            return false;
+        }
+    };
+
+    var leapYear = year => !!( !( year % 400 ) || ( !( year % 4 ) && ( year % 100 ) ) );
+
+    // https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/test/data/jquery-1.9.1.js#L480
+
+    var isPlainObject = obj => {
+        if( !isObject( obj ) ) {
+            return false;
+        }
+
+        try {
+            if( obj.constructor && !({}).hasOwnProperty.call( obj, 'constructor' ) && !({}).hasOwnProperty.call( obj.constructor.prototype, 'isPrototypeOf' ) ) {
+                return false;
+            }
+        } catch( e ) {
+            return false;
+        }
+
+        let key;
+        for( key in obj ) {} // eslint-disable-line
+
+        return key === undefined || ({}).hasOwnProperty.call( obj, key );
+    };
+
+    var oneDimensionalArray = ( arr, strict ) => {
+        if( !isArray( arr ) ) return false;
+
+        for( const item of arr ) {
+            if( !item ) continue;
+            if( strict && isPlainObject( item ) ) return false;
+            if( isArray( item ) ) return false;
+        }
+        return true;
+    };
+
+    /**
+     * Private IPv4 address
+     *
+     * 10.0.0.0 ~ 10.255.255.255
+     * 172.16.0.0 ~ 172.31.255.255
+     * 192.168.0.0 ~ 192.168.255.255
+     */
+
+    var privateIPv4 = ip => {
+        if( !isIPv4( ip ) ) return false;
+        if( /^10\..*/.test( ip ) ) return true;
+        if( /^192\.168\..*/.test( ip ) ) return true;
+        if( /^172\.(1[6-9]|2[0-9]|3[0-1])\..*/.test( ip ) ) return true;
+        return false;
+    };
+
+    var promise = p => p && isFunction( p.then );
+
+    var regexp = reg => ({}).toString.call( reg ) === '[object RegExp]';
+
+    var textNode = node => node && node.nodeType === 3 && isNode( node );
 
     function encodePathname( pathname ) {
         if( !pathname ) return pathname;
@@ -365,7 +453,7 @@
              */
             if( /^[\d.]+$/.test( hostname ) && hostname.charAt( 0 ) !== '.' && hostname.indexOf( '..' ) < 0 ) {
                 let ip = hostname.replace( /\.+$/, '' );
-                if( !ipv4( ip ) ) {
+                if( !isIPv4( ip ) ) {
                     const pieces = ip.split( '.' );
                     if( pieces.length > 4 ) return false;
                     /**
@@ -382,11 +470,11 @@
                         }
                         ip = pieces.join( '.' );
                     }
-                    if( !ipv4( ip ) ) return false;
+                    if( !isIPv4( ip ) ) return false;
                 }
                 hostname = ip;
             } else if( hostname.charAt( 0 ) === '[' ) {
-                if( !ipv6( hostname.substr( 1, hostname.length - 2 ) ) ) return false;
+                if( !isIPv6( hostname.substr( 1, hostname.length - 2 ) ) ) return false;
             }
 
             href += hostname;
@@ -419,101 +507,47 @@
         };
     };
 
-    var isNode = s => ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' );
-
-    var textNode = node => node && node.nodeType === 3 && isNode( node );
-
-    var elementNode = node => node && node.nodeType === 1 && isNode( node );
-
-    var fragmentNode = node => node && node.nodeType === 11 && isNode( node );
-
-    var isWindow = obj => obj && obj === obj.window;
-
-    var isClass = obj => isFunction( obj ) && /^\s*class\s+/.test( obj.toString() );
-
-    var ip = ip => ipv4( ip ) || ipv6( ip );
-
-    /**
-     * Private IPv4 address
-     *
-     * 10.0.0.0 ~ 10.255.255.255
-     * 172.16.0.0 ~ 172.31.255.255
-     * 192.168.0.0 ~ 192.168.255.255
-     */
-
-    var privateIPv4 = ip => {
-        if( !ipv4( ip ) ) return false;
-        if( /^10\..*/.test( ip ) ) return true;
-        if( /^192\.168\..*/.test( ip ) ) return true;
-        if( /^172\.(1[6-9]|2[0-9]|3[0-1])\..*/.test( ip ) ) return true;
-        return false;
-    };
-
-    var generator = fn => {
-        try {
-            return new Function( 'fn', 'return fn.constructor === (function*(){}).constructor' )( fn );
-        } catch( e ) {
-            return false;
-        }
-    };
-
-    var oneDimensionalArray = ( arr, strict ) => {
-        if( !isArray( arr ) ) return false;
-
-        for( const item of arr ) {
-            if( !item ) continue;
-            if( strict && isPlainObject( item ) ) return false;
-            if( isArray( item ) ) return false;
-        }
-        return true;
-    };
-
-    var isMap = obj => ({}).toString.call( obj ) === '[object Map]';
-
-    var isSet = obj => ({}).toString.call( obj ) === '[object Set]';
-
-    var leapYear = year => !!( !( year % 400 ) || ( !( year % 4 ) && ( year % 100 ) ) );
-
     var is = {
         arguments : isArguments,
         array: isArray,
         arrowFunction,
         asyncFunction: isAsyncFunction,
+        between : between,
         boolean : isBoolean,
+        class : isClass,
         date,
+        elementNode,
         email,
         empty,
         error,
         false : isFalse,
+        fragmentNode,
         function : isFunction,
+        generator,
         integer: isInteger,
+        ip,
+        ipv4: isIPv4,
+        ipv6: isIPv6,
         iterable,
+        leapYear : leapYear,
+        map : isMap,
+        node: isNode,
         number: isNumber,
         object: isObject,
+        oneDimensionalArray,
         plainObject: isPlainObject,
+        privateIPv4,
         promise,
         regexp,
+        set : isSet,
         string: isString,
+        textNode,
         true : isTrue,
         undefined : isUndefined,
         url,
-        node: isNode,
-        textNode,
-        elementNode,
-        fragmentNode,
-        window : isWindow,
-        class : isClass,
-        ip,
-        ipv4,
-        ipv6,
-        privateIPv4,
-        generator,
-        oneDimensionalArray,
-        map : isMap,
-        set : isSet,
-        leapYear : leapYear
+        window : isWindow
     };
 
     return is;
 
-})));
+}));

@@ -1,10 +1,8 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    (global.is = factory());
-}(this, (function () { 'use strict';
-
-    function isArguments (obj) { return ({}).toString.call( obj ) === '[object Arguments]'; }
+    (global = global || self, global.is = factory());
+}(this, function () { 'use strict';
 
     function isArray (obj) { return Array.isArray( obj ); }
 
@@ -41,9 +39,56 @@
         return /^(?:function)?\s*\(?[\w\s,]*\)?\s*=>/.test( fn.toString() );
     }
 
-    function isBoolean (s) { return typeof s === 'boolean'; }
+    function isNumber ( n, strict ) {
+        if ( strict === void 0 ) strict = false;
+
+        if( ({}).toString.call( n ).toLowerCase() === '[object number]' ) {
+            return true;
+        }
+        if( strict ) { return false; }
+        return !isNaN( parseFloat( n ) ) && isFinite( n )  && !/\.$/.test( n );
+    }
+
+    /**
+     * to check if a number/letter is between two numbers/letters
+     */
+    function between ( n, lower, upper, mode ) {
+        if ( mode === void 0 ) mode = 0;
+
+        if( !isNumber( n ) ) {
+            n = n.charCodeAt( 0 );
+            lower = lower.charCodeAt( 0 );
+            upper = upper.charCodeAt( 0 );
+        }
+
+        if( upper < lower ) { return false; }
+
+        // closed interval [lower, upper]
+        if( mode === 0 ) {
+            return n >= lower && n <= upper;
+        }
+
+        // open interval (lower, upper)
+        if( mode === 1 ) {
+            return n > lower && n < upper;
+        }
+
+        // half-closed interval [lower, upper)
+        if( mode === 2 ) {
+            return n >= lower && n < upper;
+        }
+
+        // half-closed interval (lower, upper]
+        if( mode === 3 ) {
+            return n > lower && n <= upper;
+        }
+    }
 
     function date (date) { return ({}).toString.call( date ) === '[object Date]'; }
+
+    function isNode (s) { return ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' ); }
+
+    function elementNode (node) { return node && node.nodeType === 1 && isNode( node ); }
 
     function email (str) { return /^(([^#$%&*!+-/=?^`{|}~<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test( str ); }
 
@@ -63,24 +108,14 @@
 
     function error (e) { return ({}).toString.call( e ) === '[object Error]'; }
 
-    function isFalse ( obj, generalized ) {
-        if ( generalized === void 0 ) generalized = true;
+    function fragmentNode (node) { return node && node.nodeType === 11 && isNode( node ); }
 
-        if( isBoolean( obj ) || !generalized ) { return !obj; }
-        if( isString( obj ) ) {
-            return [ 'false', 'no', '0', '', 'nay', 'n', 'disagree' ].indexOf( obj.toLowerCase() ) > -1;
+    function generator (fn) {
+        try {
+            return new Function( 'fn', 'return fn.constructor === (function*(){}).constructor' )( fn );
+        } catch( e ) {
+            return false;
         }
-        return !obj;
-    }
-
-    function isNumber ( n, strict ) {
-        if ( strict === void 0 ) strict = false;
-
-        if( ({}).toString.call( n ).toLowerCase() === '[object number]' ) {
-            return true;
-        }
-        if( strict ) { return false; }
-        return !isNaN( parseFloat( n ) ) && isFinite( n )  && !/\.$/.test( n );
     }
 
     function isInteger ( n, strict ) {
@@ -100,64 +135,6 @@
     }
 
     /**
-     * iterable
-     *
-     * @compatibility
-     *
-     * IE: no
-     * Edge: >= 13
-     * Android: >= 5.0
-     *  
-     */
-
-    function iterable (obj) {
-        try {
-            return isFunction( obj[ Symbol.iterator ] );
-        } catch( e ) {
-            return false;
-        }
-    }
-
-    // https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/test/data/jquery-1.9.1.js#L480
-
-    function isPlainObject (obj) {
-        if( !isObject( obj ) ) {
-            return false;
-        }
-
-        try {
-            if( obj.constructor && !({}).hasOwnProperty.call( obj, 'constructor' ) && !({}).hasOwnProperty.call( obj.constructor.prototype, 'isPrototypeOf' ) ) {
-                return false;
-            }
-        } catch( e ) {
-            return false;
-        }
-
-        var key;
-        for( key in obj ) {} // eslint-disable-line
-
-        return key === undefined || ({}).hasOwnProperty.call( obj, key );
-    }
-
-    function promise (p) { return p && isFunction( p.then ); }
-
-    function regexp (reg) { return ({}).toString.call( reg ) === '[object RegExp]'; }
-
-    function isTrue ( obj, generalized ) {
-        if ( generalized === void 0 ) generalized = true;
-
-        if( isBoolean( obj ) || !generalized ) { return !!obj; }
-        if( isString( obj ) ) {
-            return [ 'true', 'yes', 'ok', '1', 'yea', 'yep', 'y', 'agree' ].indexOf( obj.toLowerCase() ) > -1;
-        }
-        return !!obj;
-    }
-
-    function isUndefined() {
-        return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
-    }
-
-    /**
      * BNF of IPv4 address
      *
      * IPv4address = dec-octet "." dec-octet "." dec-octet "." dec-octet
@@ -168,7 +145,7 @@
      *           / "2" 2DIGIT           ; 200-249
      *           / "25" %x30-35         ; 250-255
      */
-    function ipv4 (ip) {
+    function isIPv4 (ip) {
         if( !isString( ip ) ) { return false; }
         var pieces = ip.split( '.' );
         if( pieces.length !== 4 ) { return false; }
@@ -202,7 +179,7 @@
      *      ; 16 bits of address represented in hexadcimal
      */
 
-    function ipv6 (ip) {
+    function isIPv6 (ip) {
         /**
          * An IPv6 address should have at least one colon(:)
          */
@@ -241,7 +218,7 @@
             /**
              * the decimal part should be an valid IPv4 address.
              */
-            if( !ipv4( decimal ) ) { return false; }
+            if( !isIPv4( decimal ) ) { return false; }
 
             /**
              * the length of the hexadecimal part should less than 6.
@@ -255,6 +232,121 @@
         }
         return true;
     }
+
+    function ip (ip) { return isIPv4( ip ) || isIPv6( ip ); }
+
+    function isArguments (obj) { return ({}).toString.call( obj ) === '[object Arguments]'; }
+
+    function isBoolean (s) { return typeof s === 'boolean'; }
+
+    function isClass (obj) { return isFunction( obj ) && /^\s*class\s+/.test( obj.toString() ); }
+
+    function isFalse ( obj, generalized ) {
+        if ( generalized === void 0 ) generalized = true;
+
+        if( isBoolean( obj ) || !generalized ) { return !obj; }
+        if( isString( obj ) ) {
+            return [ 'false', 'no', '0', '', 'nay', 'n', 'disagree' ].indexOf( obj.toLowerCase() ) > -1;
+        }
+        return !obj;
+    }
+
+    function isMap (obj) { return ({}).toString.call( obj ) === '[object Map]'; }
+
+    function isSet (obj) { return ({}).toString.call( obj ) === '[object Set]'; }
+
+    function isTrue ( obj, generalized ) {
+        if ( generalized === void 0 ) generalized = true;
+
+        if( isBoolean( obj ) || !generalized ) { return !!obj; }
+        if( isString( obj ) ) {
+            return [ 'true', 'yes', 'ok', '1', 'yea', 'yep', 'y', 'agree' ].indexOf( obj.toLowerCase() ) > -1;
+        }
+        return !!obj;
+    }
+
+    function isUndefined() {
+        return arguments.length > 0 && typeof arguments[ 0 ] === 'undefined';
+    }
+
+    function isWindow (obj) { return obj && obj === obj.window; }
+
+    /**
+     * iterable
+     *
+     * @compatibility
+     *
+     * IE: no
+     * Edge: >= 13
+     * Android: >= 5.0
+     *  
+     */
+
+    function iterable (obj) {
+        try {
+            return isFunction( obj[ Symbol.iterator ] );
+        } catch( e ) {
+            return false;
+        }
+    }
+
+    function leapYear (year) { return !!( !( year % 400 ) || ( !( year % 4 ) && ( year % 100 ) ) ); }
+
+    // https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/test/data/jquery-1.9.1.js#L480
+
+    function isPlainObject (obj) {
+        if( !isObject( obj ) ) {
+            return false;
+        }
+
+        try {
+            if( obj.constructor && !({}).hasOwnProperty.call( obj, 'constructor' ) && !({}).hasOwnProperty.call( obj.constructor.prototype, 'isPrototypeOf' ) ) {
+                return false;
+            }
+        } catch( e ) {
+            return false;
+        }
+
+        var key;
+        for( key in obj ) {} // eslint-disable-line
+
+        return key === undefined || ({}).hasOwnProperty.call( obj, key );
+    }
+
+    function oneDimensionalArray ( arr, strict ) {
+        if( !isArray( arr ) ) { return false; }
+
+        for( var i = 0, list = arr; i < list.length; i += 1 ) {
+            var item = list[i];
+
+            if( !item ) { continue; }
+            if( strict && isPlainObject( item ) ) { return false; }
+            if( isArray( item ) ) { return false; }
+        }
+        return true;
+    }
+
+    /**
+     * Private IPv4 address
+     *
+     * 10.0.0.0 ~ 10.255.255.255
+     * 172.16.0.0 ~ 172.31.255.255
+     * 192.168.0.0 ~ 192.168.255.255
+     */
+
+    function privateIPv4 (ip) {
+        if( !isIPv4( ip ) ) { return false; }
+        if( /^10\..*/.test( ip ) ) { return true; }
+        if( /^192\.168\..*/.test( ip ) ) { return true; }
+        if( /^172\.(1[6-9]|2[0-9]|3[0-1])\..*/.test( ip ) ) { return true; }
+        return false;
+    }
+
+    function promise (p) { return p && isFunction( p.then ); }
+
+    function regexp (reg) { return ({}).toString.call( reg ) === '[object RegExp]'; }
+
+    function textNode (node) { return node && node.nodeType === 3 && isNode( node ); }
 
     function encodePathname( pathname ) {
         if( !pathname ) { return pathname; }
@@ -382,7 +474,7 @@
              */
             if( /^[\d.]+$/.test( hostname ) && hostname.charAt( 0 ) !== '.' && hostname.indexOf( '..' ) < 0 ) {
                 var ip = hostname.replace( /\.+$/, '' );
-                if( !ipv4( ip ) ) {
+                if( !isIPv4( ip ) ) {
                     var pieces = ip.split( '.' );
                     if( pieces.length > 4 ) { return false; }
                     /**
@@ -399,11 +491,11 @@
                         }
                         ip = pieces.join( '.' );
                     }
-                    if( !ipv4( ip ) ) { return false; }
+                    if( !isIPv4( ip ) ) { return false; }
                 }
                 hostname = ip;
             } else if( hostname.charAt( 0 ) === '[' ) {
-                if( !ipv6( hostname.substr( 1, hostname.length - 2 ) ) ) { return false; }
+                if( !isIPv6( hostname.substr( 1, hostname.length - 2 ) ) ) { return false; }
             }
 
             href += hostname;
@@ -436,103 +528,47 @@
         };
     }
 
-    function isNode (s) { return ( typeof Node === 'object' ? s instanceof Node : s && typeof s === 'object' && typeof s.nodeType === 'number' && typeof s.nodeName === 'string' ); }
-
-    function textNode (node) { return node && node.nodeType === 3 && isNode( node ); }
-
-    function elementNode (node) { return node && node.nodeType === 1 && isNode( node ); }
-
-    function fragmentNode (node) { return node && node.nodeType === 11 && isNode( node ); }
-
-    function isWindow (obj) { return obj && obj === obj.window; }
-
-    function isClass (obj) { return isFunction( obj ) && /^\s*class\s+/.test( obj.toString() ); }
-
-    function ip (ip) { return ipv4( ip ) || ipv6( ip ); }
-
-    /**
-     * Private IPv4 address
-     *
-     * 10.0.0.0 ~ 10.255.255.255
-     * 172.16.0.0 ~ 172.31.255.255
-     * 192.168.0.0 ~ 192.168.255.255
-     */
-
-    function privateIPv4 (ip) {
-        if( !ipv4( ip ) ) { return false; }
-        if( /^10\..*/.test( ip ) ) { return true; }
-        if( /^192\.168\..*/.test( ip ) ) { return true; }
-        if( /^172\.(1[6-9]|2[0-9]|3[0-1])\..*/.test( ip ) ) { return true; }
-        return false;
-    }
-
-    function generator (fn) {
-        try {
-            return new Function( 'fn', 'return fn.constructor === (function*(){}).constructor' )( fn );
-        } catch( e ) {
-            return false;
-        }
-    }
-
-    function oneDimensionalArray ( arr, strict ) {
-        if( !isArray( arr ) ) { return false; }
-
-        for( var i = 0, list = arr; i < list.length; i += 1 ) {
-            var item = list[i];
-
-            if( !item ) { continue; }
-            if( strict && isPlainObject( item ) ) { return false; }
-            if( isArray( item ) ) { return false; }
-        }
-        return true;
-    }
-
-    function isMap (obj) { return ({}).toString.call( obj ) === '[object Map]'; }
-
-    function isSet (obj) { return ({}).toString.call( obj ) === '[object Set]'; }
-
-    function leapYear (year) { return !!( !( year % 400 ) || ( !( year % 4 ) && ( year % 100 ) ) ); }
-
     var is = {
         arguments : isArguments,
         array: isArray,
         arrowFunction: arrowFunction,
         asyncFunction: isAsyncFunction,
+        between : between,
         boolean : isBoolean,
+        class : isClass,
         date: date,
+        elementNode: elementNode,
         email: email,
         empty: empty,
         error: error,
         false : isFalse,
+        fragmentNode: fragmentNode,
         function : isFunction,
+        generator: generator,
         integer: isInteger,
+        ip: ip,
+        ipv4: isIPv4,
+        ipv6: isIPv6,
         iterable: iterable,
+        leapYear : leapYear,
+        map : isMap,
+        node: isNode,
         number: isNumber,
         object: isObject,
+        oneDimensionalArray: oneDimensionalArray,
         plainObject: isPlainObject,
+        privateIPv4: privateIPv4,
         promise: promise,
         regexp: regexp,
+        set : isSet,
         string: isString,
+        textNode: textNode,
         true : isTrue,
         undefined : isUndefined,
         url: url,
-        node: isNode,
-        textNode: textNode,
-        elementNode: elementNode,
-        fragmentNode: fragmentNode,
-        window : isWindow,
-        class : isClass,
-        ip: ip,
-        ipv4: ipv4,
-        ipv6: ipv6,
-        privateIPv4: privateIPv4,
-        generator: generator,
-        oneDimensionalArray: oneDimensionalArray,
-        map : isMap,
-        set : isSet,
-        leapYear : leapYear
+        window : isWindow
     };
 
     return is;
 
-})));
+}));

@@ -233,6 +233,26 @@ describe( 'is', () => {
 
     it( 'between for checking numbers', () => {
         expect( is.between( 0, -1, 1 ) ).toBeTruthy();
+        expect( is.between( 0, 0, 0 ) ).toBeTruthy();
+        expect( is.between( 0, 0, 1 ) ).toBeTruthy();
+        expect( is.between( 0, -1, 0 ) ).toBeTruthy();
+
+        expect( is.between( -1, -1, 1, 1 ) ).toBeFalsy();
+        expect( is.between( 0, 0, 0, 1 ) ).toBeFalsy();
+        expect( is.between( 0, 0, 1, 1 ) ).toBeFalsy();
+        expect( is.between( 0, -1, 0, 1 ) ).toBeFalsy();
+    } );
+
+    it( 'between for checking letters', () => {
+        expect( is.between( 'c', 'b', 'd' ) ).toBeTruthy();
+        expect( is.between( 'c', 'c', 'c' ) ).toBeTruthy();
+        expect( is.between( 'c', 'c', 'd' ) ).toBeTruthy();
+        expect( is.between( 'c', 'b', 'c' ) ).toBeTruthy();
+
+        expect( is.between( 'b', 'b', 'd', 1 ) ).toBeFalsy();
+        expect( is.between( 'c', 'c', 'c', 1 ) ).toBeFalsy();
+        expect( is.between( 'c', 'c', 'd', 1 ) ).toBeFalsy();
+        expect( is.between( 'c', 'b', 'c', 1 ) ).toBeFalsy();
     } );
 } );
 
