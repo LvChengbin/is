@@ -230,6 +230,10 @@ describe( 'is', () => {
             expect( is.leapYear( year ) ).toBeFalsy();
         }
     } );
+
+    it( 'between for checking numbers', () => {
+        expect( is.between( 0, -1, 1 ) ).toBeTruthy();
+    } );
 } );
 
 const validIPv4 = [
