@@ -54,6 +54,7 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.array | import isArray from '@lvchengbin/is/src/array' |
 | is.arrowFunction | import isArrowFunction from '@lvchengbin/is/src/arrow-function' |
 | is.asyncFunction | import isAsyncFunction from '@lvchengbin/is/src/async-function' |
+| is.between | import isBetween from '@lvchengbin/is/src/between' |
 | is.boolean | import isBoolean from '@lvchengbin/is/src/boolean' |
 | is.class | import isClass from '@lvchengbin/is/src/class' |
 | is.date | import isDate from '@lvchengbin/is/src/date' |
@@ -86,6 +87,16 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.url | import isUrl from '@lvchengbin/is/src/url' |
 | is.textNode | import isTextNode from '@lvchengbin/is/src/text-node' |
 | is.window | import isWindow from '@lvchengbin/is/src/window' |
+
+### is.between
+
+For checking if a number/letter is in an interval
+
+```js
+import isBetween from '@lvchengbin/is/src/between';
+
+isBetween( 0, -1, 1 ); // return true
+```
 
 ### is.date
 

@@ -1,6 +1,6 @@
 {
     "name": "@lvchengbin/is",
-    "version": "0.0.24",
+    "version": "0.0.26",
     "description": "A library, which is possible to be imported as ES6 module separately, for checking the type of a value.",
     "keywords": [
         "is",
@@ -29,7 +29,7 @@
         "karma": "^3.1.4",
         "karma-chrome-launcher": "^2.2.0",
         "karma-jasmine": "^2.0.1",
-        "karma-rollup-preprocessor": "^6.1.2",
+        "karma-rollup-preprocessor": "^7.0.0-rc.1",
         "optimist": "^0.6.1",
         "pre-commit": "^1.2.2",
         "puppeteer": "^1.11.0",
