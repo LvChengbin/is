@@ -48,6 +48,7 @@ var isNumber = ( n, strict = false ) => {
  */
 var between = ( n, lower, upper, mode = 0 ) => {
     if( !isNumber( n ) ) {
+        if( !isFunction( n.charCodeAt ) ) return false;
         n = n.charCodeAt( 0 );
         lower = lower.charCodeAt( 0 );
         upper = upper.charCodeAt( 0 );

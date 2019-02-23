@@ -1,6 +1,6 @@
 {
     "name": "@lvchengbin/is",
-    "version": "0.0.26",
+    "version": "0.0.27",
     "description": "A library, which is possible to be imported as ES6 module separately, for checking the type of a value.",
     "keywords": [
         "is",
@@ -23,19 +23,19 @@
     },
     "devDependencies": {
         "@lvchengbin/promise": "^1.1.7",
-        "buble": "^0.19.3",
-        "eslint": "^5.12.0",
+        "buble": "^0.19.6",
+        "eslint": "^5.14.1",
         "jasmine-core": "^3.3.0",
-        "karma": "^3.1.4",
+        "karma": "^4.0.0",
         "karma-chrome-launcher": "^2.2.0",
         "karma-jasmine": "^2.0.1",
-        "karma-rollup-preprocessor": "^7.0.0-rc.1",
+        "karma-rollup-preprocessor": "^7.0.0",
         "optimist": "^0.6.1",
         "pre-commit": "^1.2.2",
-        "puppeteer": "^1.11.0",
-        "rollup": "^1.1.0",
-        "rollup-plugin-buble": "^0.19.2",
-        "rollup-plugin-node-resolve": "^4.0.0"
+        "puppeteer": "^1.12.2",
+        "rollup": "^1.2.3",
+        "rollup-plugin-buble": "^0.19.6",
+        "rollup-plugin-node-resolve": "^4.0.1"
     },
     "scripts": {
         "build": "rollup -c",
