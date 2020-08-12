@@ -4,7 +4,7 @@
         "sourceMap": false,
         "noImplicitAny": true,
         "module": "commonjs",
-        "lib" : [ "ES2018" ],
+        "lib" : [ "ES2018", "DOM" ],
         "target": "ES2018",
         "strict" : true,
         "experimentalDecorators": true,

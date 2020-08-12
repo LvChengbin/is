@@ -1,16 +1,10 @@
 /******************************************************************
  * Copyright (C) 2020 LvChengbin
  * 
- * File: src/generator.ts
+ * File: src/map.ts
  * Author: LvChengbin<lvchengbin59@gmail.com>
  * Time: 08/12/2020
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): boolean => {
-    try {
-        return new Function( 'x', 'return fn.constructor === (function*(){}).constructor' )( x ) as boolean;
-    } catch( e ) {
-        return false;
-    }
-}
+export default ( x: any ) => ({}).toString.call( x ) === '[object Map]';

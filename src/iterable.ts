@@ -1,15 +1,17 @@
 /******************************************************************
  * Copyright (C) 2020 LvChengbin
  * 
- * File: src/generator.ts
+ * File: src/iterable.ts
  * Author: LvChengbin<lvchengbin59@gmail.com>
  * Time: 08/12/2020
  * Description: 
  ******************************************************************/
 
+import isFunction from './function';
+
 export default ( x: any ): boolean => {
     try {
-        return new Function( 'x', 'return fn.constructor === (function*(){}).constructor' )( x ) as boolean;
+        return isFunction( x[ Symbol.iterator ] );
     } catch( e ) {
         return false;
     }

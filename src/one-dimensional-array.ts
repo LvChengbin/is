@@ -1,16 +1,19 @@
 /******************************************************************
  * Copyright (C) 2020 LvChengbin
  * 
- * File: src/generator.ts
+ * File: src/one-dimensional-array.ts
  * Author: LvChengbin<lvchengbin59@gmail.com>
  * Time: 08/12/2020
  * Description: 
  ******************************************************************/
 
+import isArray from './array';
+
 export default ( x: any ): boolean => {
-    try {
-        return new Function( 'x', 'return fn.constructor === (function*(){}).constructor' )( x ) as boolean;
-    } catch( e ) {
-        return false;
+    if( !isArray( x ) ) return false;
+
+    for( const item of x as any[] ) {
+        if( isArray( item ) ) return false;
     }
-}
+    return true;
+};
