@@ -49,6 +49,7 @@
         }
     },
     "main": "dist/index.js",
+    "files" : [ "dist" ],
     "author": "LvChengbin <lvchengbin59@gmail.com>",
     "license": "MIT"
 }
