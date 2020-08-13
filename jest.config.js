@@ -1,9 +1,6 @@
 module.exports = {
     testMatch : [
-        '**/test/**/*.spec.js',
-        '**/test/**/*.spec.ts',
-        '**/test/**/*.spec.jsx',
-        '**/test/**/*.spec.tsx'
+        '**/test/**/*.spec.ts'
     ],
     coverageReporters : [
         'text-summary',
@@ -13,5 +10,5 @@ module.exports = {
     collectCoverageFrom : [
         'src/**/*.ts'
     ],
-    testEnvironment : 'node'
+    testEnvironment : 'jsdom'
 }

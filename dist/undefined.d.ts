@@ -6,5 +6,4 @@
  * Time: 05/02/2020
  * Description:
  ******************************************************************/
-declare const _default: (x: any) => boolean;
-export default _default;
+export default function (x: any): boolean;

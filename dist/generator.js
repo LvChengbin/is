@@ -10,7 +10,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (x) => {
     try {
-        return new Function('x', 'return fn.constructor === (function*(){}).constructor')(x);
+        return new Function('x', 'return x.constructor === (function*(){}).constructor')(x);
     }
     catch (e) {
         return false;

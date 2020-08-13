@@ -7,4 +7,9 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): boolean => x === void 0;
+export default function( x: any ): boolean {
+    if( !arguments.length ) {
+        throw new TypeError( 'is.undefined should have at least one argument' );
+    }
+    return x === void 0;
+}

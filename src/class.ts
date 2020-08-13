@@ -8,4 +8,12 @@
  ******************************************************************/
 
 import isFunction from './function';
-export default ( x: any ): boolean => isFunction( x ) && /^\s*class\s+/.test( x.toString() );
+export default ( x: any ): boolean => {
+    const fn = x.toString();
+
+    return isFunction( x ) && (
+        /^\s*class\s+/.test( fn )
+        // babel transforms class to es5 function
+        || /\s+_classCallCheck\(/.test( fn )
+    )
+}

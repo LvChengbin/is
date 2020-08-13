@@ -9,7 +9,7 @@
 
 export default ( x: any ): boolean => {
     try {
-        return new Function( 'x', 'return fn.constructor === (function*(){}).constructor' )( x ) as boolean;
+        return new Function( 'x', 'return x.constructor === (function*(){}).constructor' )( x ) as boolean;
     } catch( e ) {
         return false;
     }

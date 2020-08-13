@@ -13,11 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const string_1 = __importDefault(require("./string"));
 const number_1 = __importDefault(require("./number"));
-exports.default = (x, strict = false) => {
+exports.default = (x) => {
     if (number_1.default(x, true))
         return x % 1 === 0;
-    if (strict)
-        return false;
     if (!string_1.default(x))
         return false;
     if (x === '-0')

@@ -6,5 +6,5 @@
  * Time: 08/12/2020
  * Description:
  ******************************************************************/
-declare const _default: (x: any, haystack?: string[]) => boolean;
+declare const _default: (x: any, haystack?: any[]) => boolean;
 export default _default;

@@ -10,7 +10,7 @@
 import isNumber from './number';
 import isFunction from './function';
 
-export default ( x: any, lower: any, upper: any, mode: number = 0 ): boolean => {
+export default ( x: any, lower: any, upper: any, mode = 0 ): boolean => {
     if( !isNumber( x ) ) {
         if( !isFunction( x.charCodeAt ) ) return false;
         x = x.charCodeAt( 0 );

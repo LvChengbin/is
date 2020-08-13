@@ -8,4 +8,10 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => x === void 0;
+function default_1(x) {
+    if (!arguments.length) {
+        throw new TypeError('is.undefined should have at least one argument');
+    }
+    return x === void 0;
+}
+exports.default = default_1;

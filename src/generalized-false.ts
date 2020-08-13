@@ -11,9 +11,9 @@ import isString from './string';
 
 const list = [ 'false', 'no', '0', 'nay', 'n', 'disagree' ];
 
-export default ( x: any, haystack: string[] = list ): boolean => {
+export default ( x: any, haystack: any[] = list ): boolean => {
     if( isString( x ) ) {
-        return haystack.includes( ( x as string ).toLowerCase() );
+        return !x.length ? true : haystack.includes( x.toLowerCase() );
     }
     return !x;
 }

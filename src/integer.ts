@@ -10,9 +10,8 @@
 import isString from './string';
 import isNumber from './number';
 
-export default ( x: any, strict: boolean = false ): boolean => {
+export default ( x: any ): boolean => {
     if( isNumber( x, true ) ) return x % 1 === 0;
-    if( strict ) return false;
     if( !isString( x ) ) return false;
     if( x === '-0' ) return true;
     return x.indexOf( '.' ) < 0 && String( parseInt( x ) ) === x;
