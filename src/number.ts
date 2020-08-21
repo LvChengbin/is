@@ -7,7 +7,7 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any, strict = false ): x is number => {
+export default ( x: unknown, strict = false ): x is number => {
     if( ({}).toString.call( x ) === '[object Number]' ) return true;
     if( strict ) return false;
     return !isNaN( parseFloat( x ) ) && isFinite( x ) && !/\.$/.test( x );

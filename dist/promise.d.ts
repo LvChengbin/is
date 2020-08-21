@@ -6,5 +6,5 @@
  * Time: 05/02/2020
  * Description:
  ******************************************************************/
-declare const _default: (x: any) => boolean;
+declare const _default: (x: any) => x is Promise<any>;
 export default _default;

@@ -9,9 +9,9 @@
 
 import isFunction from './function';
 
-export default ( x: any ): boolean => {
+export default ( x: unknown ): boolean => {
     try {
-        return isFunction( x[ Symbol.iterator ] );
+        return isFunction( ( x as any)[ Symbol.iterator ] );
     } catch( e ) {
         return false;
     }

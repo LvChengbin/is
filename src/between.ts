@@ -10,27 +10,29 @@
 import isNumber from './number';
 import isFunction from './function';
 
-export default ( x: any, lower: any, upper: any, mode = 0 ): boolean => {
+export default ( x: unknown, lower: any, upper: any, mode = 0 ): boolean => {
     if( !isNumber( x ) ) {
-        if( !isFunction( x.charCodeAt ) ) return false;
-        x = x.charCodeAt( 0 );
-        lower = lower.charCodeAt( 0 );
-        upper = upper.charCodeAt( 0 );
+        if( !isFunction( ( x as string ).charCodeAt ) ) return false;
+        x = ( x as string ).charCodeAt( 0 );
+        lower = ( lower as string ).charCodeAt( 0 );
+        upper = ( upper as string ).charCodeAt( 0 );
     }
+
+    const n = x as number;
 
     if( upper < lower ) return false;
 
-    // closed interval [lower, upper]
-    if( mode === 0 ) return x >= lower && x <= upper;
+    // inclusive both lower and upper
+    if( mode === 0 ) return n >= lower && n <= upper;
 
-    // open interval (lower, upper)
-    if( mode === 1 ) return x > lower && x < upper;
+    // exclusive both lower and upper
+    if( mode === 1 ) return n > lower && n < upper;
 
-    // half-closed interval [lower, upper)
-    if( mode === 2 ) return x >= lower && x < upper;
+    // inclusive lower and exclusive upper
+    if( mode === 2 ) return n >= lower && n < upper;
 
-    // half-closed interval (lower, upper]
-    if( mode === 3 ) return x > lower && x <= upper;
+    // exclusive lower and inclusive upper
+    if( mode === 3 ) return n > lower && n <= upper;
 
     return false;
 }

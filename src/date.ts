@@ -7,4 +7,4 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): boolean => ({}).toString.call( x ) === '[object Date]';
+export default ( x: unknown ): x is Date => ({}).toString.call( x ) === '[object Date]';

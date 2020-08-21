@@ -21,19 +21,20 @@ exports.default = (x, lower, upper, mode = 0) => {
         lower = lower.charCodeAt(0);
         upper = upper.charCodeAt(0);
     }
+    const n = x;
     if (upper < lower)
         return false;
-    // closed interval [lower, upper]
+    // inclusive both lower and upper
     if (mode === 0)
-        return x >= lower && x <= upper;
-    // open interval (lower, upper)
+        return n >= lower && n <= upper;
+    // exclusive both lower and upper
     if (mode === 1)
-        return x > lower && x < upper;
-    // half-closed interval [lower, upper)
+        return n > lower && n < upper;
+    // inclusive lower and exclusive upper
     if (mode === 2)
-        return x >= lower && x < upper;
-    // half-closed interval (lower, upper]
+        return n >= lower && n < upper;
+    // exclusive lower and inclusive upper
     if (mode === 3)
-        return x > lower && x <= upper;
+        return n > lower && n <= upper;
     return false;
 };

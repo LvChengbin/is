@@ -7,4 +7,4 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): x is any[] => Array.isArray( x )
+export default ( x: unknown ): x is any[] => Array.isArray( x )

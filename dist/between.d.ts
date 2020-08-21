@@ -6,5 +6,5 @@
  * Time: 05/02/2020
  * Description: to check if a number/letter is between two numbers/letters
  ******************************************************************/
-declare const _default: (x: any, lower: any, upper: any, mode?: number) => boolean;
+declare const _default: (x: unknown, lower: any, upper: any, mode?: number) => boolean;
 export default _default;

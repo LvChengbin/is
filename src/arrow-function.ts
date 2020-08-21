@@ -9,7 +9,7 @@
 
 import isFunction from './function';
 
-export default ( x: any ): boolean => {
+export default ( x: unknown ): boolean => {
     if( !isFunction( x ) ) return false;
     return /^(?:function)?\s*\(?[\w\s,]*\)?\s*=>/.test( x.toString() );
 }

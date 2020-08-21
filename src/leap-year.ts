@@ -7,4 +7,10 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): boolean => !!( !( x % 400 ) || ( !( x % 4 ) && ( x % 100 ) ) );
+import isNumber from './number';
+
+export default ( x: unknown ): boolean => {
+    if( !isNumber( x ) ) return false;
+    const n = parseInt( x as string );
+    return !!( !( n % 400 ) || ( !( n % 4 ) && n ) );
+}

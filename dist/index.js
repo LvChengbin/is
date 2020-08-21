@@ -145,3 +145,5 @@ const is = {
     window: window_1.default
 };
 exports.default = is;
+module.exports = is;
+module.exports.default = is;

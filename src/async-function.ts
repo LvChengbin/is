@@ -7,4 +7,4 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): boolean => ({}).toString.call( x ) === '[object AsyncFunction]';
+export default ( x: unknown ): boolean => ({}).toString.call( x ) === '[object AsyncFunction]';

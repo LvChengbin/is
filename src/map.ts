@@ -7,4 +7,4 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ) => ({}).toString.call( x ) === '[object Map]';
+export default ( x: unknown ): x is Map<any, any> => ({}).toString.call( x ) === '[object Map]';

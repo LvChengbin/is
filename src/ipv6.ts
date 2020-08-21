@@ -30,7 +30,7 @@ import isString from './string';
  *      ; 16 bits of address represented in hexadcimal
  */
 
-export default ( x: any ): boolean => {
+export default ( x: unknown ): boolean => {
     if( !isString( x ) ) return false;
     /**
      * An IPv6 address should have at least one colon(:)

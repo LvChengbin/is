@@ -7,7 +7,7 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): boolean => {
+export default ( x: unknown ): boolean => {
     try {
         return new Function( 'x', 'return x.constructor === (function*(){}).constructor' )( x ) as boolean;
     } catch( e ) {

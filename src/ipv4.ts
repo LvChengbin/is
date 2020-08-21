@@ -22,7 +22,7 @@ import isBetween from './between';
  *           / "2" 2DIGIT           ; 200-249
  *           / "25" %x30-35         ; 250-255
  */
-export default ( x: any ): boolean => {
+export default ( x: unknown ): boolean => {
     if( !isString( x ) ) return false;
     const pieces = x.split( '.' );
     if( pieces.length !== 4 ) return false;

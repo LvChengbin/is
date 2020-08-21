@@ -10,7 +10,7 @@
 import isString from './string';
 import isNumber from './number';
 
-export default ( x: any ): boolean => {
+export default ( x: unknown ): boolean => {
     if( isNumber( x, true ) ) return x % 1 === 0;
     if( !isString( x ) ) return false;
     if( x === '-0' ) return true;

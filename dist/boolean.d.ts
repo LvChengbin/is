@@ -6,5 +6,5 @@
  * Time: 05/02/2020
  * Description:
  ******************************************************************/
-declare const _default: (x: any) => x is boolean;
+declare const _default: (x: unknown) => x is boolean;
 export default _default;

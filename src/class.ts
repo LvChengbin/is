@@ -8,8 +8,9 @@
  ******************************************************************/
 
 import isFunction from './function';
-export default ( x: any ): boolean => {
-    const fn = x.toString();
+export default ( x: unknown ): boolean => {
+    if( !x ) return false;
+    const fn = ( x as any ).toString();
 
     return isFunction( x ) && (
         /^\s*class\s+/.test( fn )

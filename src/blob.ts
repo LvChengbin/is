@@ -7,4 +7,4 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): boolean => ({}).toString.call( x ) === '[object Blob]';
+export default ( x: unknown ): x is Blob => ({}).toString.call( x ) === '[object Blob]';
