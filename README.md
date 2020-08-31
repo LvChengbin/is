@@ -21,27 +21,20 @@ A JavaScript library for checking the type of a value for browsers.
 npm i @lvchengbin/is --save
 ```
 
+```js
+yarn add @lvchengbin/is
+```
+
 ## Usage
 
 Generally, when we are using some toolkit such as rollup, we don't want to compile a huge library into our project, therefore, to import the files you really need.
 
 ```js
-import isFunction from '@lvchengbin/is/src/function';
-import array from '@lvchengbin/is/src/array';
+const is = require( '@lvchengbin/is' );
 
-isFunction( async () => {} );
-isArray( [] );
-```
-
-If you want to invoke the whole package:
-
-```js
-import is from '@lvchengbin/is';
-
-is.function( () => {} );
+is.function( async () => {} );
 is.array( [] );
 ```
-
 ## Using in browsers
 
 If you want to invoke this package to browsers with `<script>` tag or something like that, use [is.js](https://raw.githubusercontent.com/LvChengbin/is/master/dist/is.js). For old browsers which are not supporting ES5 syntax, use [is.bc.js](https://raw.githubusercontent.com/LvChengbin/is/master/dist/is.bc.js).
@@ -87,61 +80,3 @@ If you want to invoke this package to browsers with `<script>` tag or something 
 | is.url | import isUrl from '@lvchengbin/is/src/url' |
 | is.textNode | import isTextNode from '@lvchengbin/is/src/text-node' |
 | is.window | import isWindow from '@lvchengbin/is/src/window' |
-
-### is.between
-
-For checking if a number/letter is in an interval
-
-```js
-import isBetween from '@lvchengbin/is/src/between';
-
-isBetween( 0, -1, 1 ); // return true
-```
-
-### is.date
-
-For checking if an object is a `Date` instance.
-
-```js
-import isDate from '@lvchengbin/is/src/date';
-
-isDate( new Date ); // return true
-```
-
-### is.empty
-an empty value could be am empty object(`{}`), an empty string, an empty array(`[]`), a number `0` or a `false` |
-
-For checking if a value is empty, and empty values include empty object ({}), empty string (''), empty array ([]), number 0, false.
-
-```js
-import isEmpty from '@lvchengbin/is/src/empty';
-
-isEmpty( '' ); // return true
-isEmpty( [] ); // return true
-isEmpty( {} ); // return true
-isEmpty( 0 ); // return true
-isEmpty( false ); // return true
-```
-
-### is.false
-
-For checking if a value is `false`, if the second argument is `true` (by default), the function will check a generalized `false`, it means that the following strings all mean `false`: "false", "no", "0", "", "nay", "n", "disagree".
-
-```js
-import isFalse from '@lvchengbin/is/src/false';
-
-isFalse( false ); // returns true
-isFalse( 'false' ); // returns true
-isFalse( 'false', false ); // returns false
-```
-
-### is.true
-
-For checking if a value is `true`, if the second argument is `true` (by default), the function will check a generalized `true`, it means that the following strings all mean `true`: "true", "true", "yes", "ok", "1", "yea", "yep", "y", "agree".
-
-```js
-import isTrue from '@lvchengbin/is/src/true';
-isTrue( true ); // returns true
-isTrue( 'true' ); // returns true
-isTrue( 'true', false ); // returns false
-```
