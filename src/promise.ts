@@ -9,4 +9,8 @@
 
 import isFunction from './function';
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => x && isFunction( x.then );
+=======
+export default ( x: unknown ): x is Promise<any> => x && isFunction( ( x as any ).then );
+>>>>>>> x

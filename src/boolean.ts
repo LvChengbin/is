@@ -7,4 +7,8 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): x is boolean => typeof x === 'boolean';
+=======
+export default ( x: unknown ): x is boolean => typeof x === 'boolean';
+>>>>>>> x

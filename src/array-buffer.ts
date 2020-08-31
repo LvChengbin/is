@@ -7,4 +7,8 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => ({}).toString.call( x ) === '[object ArrayBuffer]';
+=======
+export default ( x: unknown ): boolean => ({}).toString.call( x ) === '[object ArrayBuffer]';
+>>>>>>> x

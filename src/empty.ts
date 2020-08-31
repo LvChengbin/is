@@ -11,7 +11,11 @@ import isArray from './array';
 import isString from './string';
 import isObject from './object';
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => {
+=======
+export default ( x: unknown ): boolean => {
+>>>>>>> x
 
     if( isArray( x ) || isString( x ) ) {
         return !( x as string ).length;

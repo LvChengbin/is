@@ -7,4 +7,8 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => ( {} ).toString.call( x ) === '[object Error]';
+=======
+export default ( x: unknown ): x is Error => ( {} ).toString.call( x ) === '[object Error]';
+>>>>>>> x

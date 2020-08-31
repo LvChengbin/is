@@ -9,7 +9,11 @@
 
 import isArray from './array';
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => {
+=======
+export default ( x: unknown ): boolean => {
+>>>>>>> x
     if( !isArray( x ) ) return false;
 
     for( const item of x as any[] ) {

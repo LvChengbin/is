@@ -7,4 +7,8 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => x && x === x.window;
+=======
+export default ( x: unknown ): boolean => x && x === ( x as any ).window;
+>>>>>>> x

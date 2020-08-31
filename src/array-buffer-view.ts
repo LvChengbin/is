@@ -7,4 +7,8 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => ArrayBuffer.isView( x );
+=======
+export default ( x: unknown ): boolean => ArrayBuffer.isView( x );
+>>>>>>> x

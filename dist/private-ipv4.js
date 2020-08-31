@@ -12,6 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ipv4_1 = __importDefault(require("./ipv4"));
+<<<<<<< HEAD
 exports.default = (x) => {
+=======
+const string_1 = __importDefault(require("./string"));
+exports.default = (x) => {
+    if (!string_1.default(x))
+        return false;
+>>>>>>> x
     return ipv4_1.default(x) && /^10\..*/.test(x) || /^192\.168\..*/.test(x) || /^172\.(1[6-9]|2[0-9]|3[0-1])\..*/.test(x);
 };

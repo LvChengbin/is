@@ -21,6 +21,7 @@ exports.default = (x, lower, upper, mode = 0) => {
         lower = lower.charCodeAt(0);
         upper = upper.charCodeAt(0);
     }
+<<<<<<< HEAD
     if (upper < lower)
         return false;
     // closed interval [lower, upper]
@@ -35,5 +36,22 @@ exports.default = (x, lower, upper, mode = 0) => {
     // half-closed interval (lower, upper]
     if (mode === 3)
         return x > lower && x <= upper;
+=======
+    const n = x;
+    if (upper < lower)
+        return false;
+    // inclusive both lower and upper
+    if (mode === 0)
+        return n >= lower && n <= upper;
+    // exclusive both lower and upper
+    if (mode === 1)
+        return n > lower && n < upper;
+    // inclusive lower and exclusive upper
+    if (mode === 2)
+        return n >= lower && n < upper;
+    // exclusive lower and inclusive upper
+    if (mode === 3)
+        return n > lower && n <= upper;
+>>>>>>> x
     return false;
 };

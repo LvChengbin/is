@@ -7,4 +7,8 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => x && typeof x === 'object' && !Array.isArray( x );
+=======
+export default ( x: unknown ): boolean => x && typeof x === 'object' && !Array.isArray( x );
+>>>>>>> x

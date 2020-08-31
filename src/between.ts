@@ -10,6 +10,7 @@
 import isNumber from './number';
 import isFunction from './function';
 
+<<<<<<< HEAD
 export default ( x: any, lower: any, upper: any, mode = 0 ): boolean => {
     if( !isNumber( x ) ) {
         if( !isFunction( x.charCodeAt ) ) return false;
@@ -31,6 +32,31 @@ export default ( x: any, lower: any, upper: any, mode = 0 ): boolean => {
 
     // half-closed interval (lower, upper]
     if( mode === 3 ) return x > lower && x <= upper;
+=======
+export default ( x: unknown, lower: any, upper: any, mode = 0 ): boolean => {
+    if( !isNumber( x ) ) {
+        if( !isFunction( ( x as string ).charCodeAt ) ) return false;
+        x = ( x as string ).charCodeAt( 0 );
+        lower = ( lower as string ).charCodeAt( 0 );
+        upper = ( upper as string ).charCodeAt( 0 );
+    }
+
+    const n = x as number;
+
+    if( upper < lower ) return false;
+
+    // inclusive both lower and upper
+    if( mode === 0 ) return n >= lower && n <= upper;
+
+    // exclusive both lower and upper
+    if( mode === 1 ) return n > lower && n < upper;
+
+    // inclusive lower and exclusive upper
+    if( mode === 2 ) return n >= lower && n < upper;
+
+    // exclusive lower and inclusive upper
+    if( mode === 3 ) return n > lower && n <= upper;
+>>>>>>> x
 
     return false;
 }

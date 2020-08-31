@@ -7,4 +7,8 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => x instanceof Node;
+=======
+export default ( x: unknown ): boolean => x instanceof Node;
+>>>>>>> x

@@ -12,4 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_1 = __importDefault(require("./node"));
+<<<<<<< HEAD
 exports.default = (x) => node_1.default(x) && (x).nodeType === 11;
+=======
+exports.default = (x) => node_1.default(x) && x.nodeType === 11;
+>>>>>>> x

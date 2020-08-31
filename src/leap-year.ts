@@ -7,4 +7,15 @@
  * Description: 
  ******************************************************************/
 
+<<<<<<< HEAD
 export default ( x: any ): boolean => !!( !( x % 400 ) || ( !( x % 4 ) && ( x % 100 ) ) );
+=======
+import isNumber from './number';
+import isString from './string';
+
+export default ( x: unknown ): boolean => {
+    if( !isNumber( x ) ) return false;
+    const n = isString( x ) ? parseInt( x ) : x;
+    return !!( !( n % 400 ) || ( !( n % 4 ) && ( n % 100 ) ) );
+}
+>>>>>>> x
