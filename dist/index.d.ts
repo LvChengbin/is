@@ -50,10 +50,6 @@ import isUrl from './url';
 import isWindow from './window';
 export { isArguments, isArray, isArrayBuffer, isArrayBufferView, isArrowFunction, isAsyncFunction, isBetween, isBlob, isBoolean, isClass, isDarkMode, isDataview, isDate, isElementNode, isEmail, isError, isFormdata, isFragmentNode, isFunction, isGeneralizedFalse, isGeneralizedTrue, isGenerator, isInteger, isIP, isIPv4, isIPv6, isIterable, isLeapYear, isNode, isNumber, isObject, isOneDimensionalArray, isPlainObject, isPrivateIPv4, isPromise, isRegexp, isSet, isString, isTextNode, isUndefined, isUrl, isWindow };
 declare const is: {
-<<<<<<< HEAD
-    [key: string]: (x: any, ...args: any[]) => boolean;
-=======
     [key: string]: (x: unknown, ...args: any[]) => boolean;
->>>>>>> x
 };
 export default is;

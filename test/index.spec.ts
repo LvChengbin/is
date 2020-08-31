@@ -466,8 +466,6 @@ describe( 'invalid IPv6 addresses', () => {
         } );
     }
 } );
-<<<<<<< HEAD
-=======
 
 describe( 'is.url', () => {
 
@@ -522,4 +520,3 @@ describe( 'is.url', () => {
     } );
 
 } );
->>>>>>> x

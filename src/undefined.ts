@@ -7,11 +7,7 @@
  * Description: 
  ******************************************************************/
 
-<<<<<<< HEAD
-export default function( x: any ): boolean {
-=======
 export default function( x: unknown ): boolean {
->>>>>>> x
     if( !arguments.length ) {
         throw new TypeError( 'is.undefined should have at least one argument' );
     }

@@ -7,8 +7,4 @@
  * Description: 
  ******************************************************************/
 
-<<<<<<< HEAD
-export default ( x: any ): boolean => ({}).toString.call( x ) === '[object DataView]';
-=======
 export default ( x: unknown ): x is DataView => ({}).toString.call( x ) === '[object DataView]';
->>>>>>> x

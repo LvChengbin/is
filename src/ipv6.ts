@@ -30,11 +30,7 @@ import isString from './string';
  *      ; 16 bits of address represented in hexadcimal
  */
 
-<<<<<<< HEAD:src/ipv6.ts
-export default ( x: any ): boolean => {
-=======
 export default ( x: unknown ): boolean => {
->>>>>>> x:src/ipv6.js
     if( !isString( x ) ) return false;
     /**
      * An IPv6 address should have at least one colon(:)

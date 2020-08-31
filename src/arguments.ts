@@ -7,8 +7,4 @@
  * Description: 
  ******************************************************************/
 
-<<<<<<< HEAD
-export default ( x: any ): boolean => ({}).toString.call( x ) === '[object Arguments]';
-=======
 export default ( x: unknown ): boolean => ({}).toString.call( x ) === '[object Arguments]';
->>>>>>> x

@@ -6,9 +6,5 @@
  * Time: 08/12/2020
  * Description:
  ******************************************************************/
-<<<<<<< HEAD
-declare const _default: (x: any, haystack?: string[]) => boolean;
-=======
 declare const _default: (x: unknown, haystack?: string[]) => boolean;
->>>>>>> x
 export default _default;

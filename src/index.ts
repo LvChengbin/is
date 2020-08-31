@@ -97,11 +97,7 @@ export {
     isWindow
 }; 
 
-<<<<<<< HEAD
-const is: { [ key: string ]: ( x: any, ...args: any[] ) => boolean } = {
-=======
 const is: { [ key: string ]: ( x: unknown, ...args: any[] ) => boolean } = {
->>>>>>> x
     arguments : isArguments,
     arrayBufferView : isArrayBufferView,
     arrayBuffer : isArrayBuffer,
@@ -149,10 +145,7 @@ const is: { [ key: string ]: ( x: unknown, ...args: any[] ) => boolean } = {
 }
 
 export default is;
-<<<<<<< HEAD
-=======
 
 /* global module:true */
 module.exports = is;
 module.exports.default = is;
->>>>>>> x

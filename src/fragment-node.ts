@@ -10,8 +10,4 @@
 
 import isNode from './node';
 
-<<<<<<< HEAD
-export default ( x: any ): boolean => isNode( x ) && ( x ).nodeType === 11;
-=======
 export default ( x: unknown ): boolean => isNode( x ) && ( x as any ).nodeType === 11;
->>>>>>> x

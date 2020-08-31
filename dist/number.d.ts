@@ -6,9 +6,5 @@
  * Time: 05/02/2020
  * Description:
  ******************************************************************/
-<<<<<<< HEAD
-declare const _default: (x: any, strict?: boolean) => x is number;
-=======
 declare const _default: (x: unknown, strict?: boolean) => x is number;
->>>>>>> x
 export default _default;

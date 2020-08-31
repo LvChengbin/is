@@ -7,10 +7,6 @@
  * Time: 05/02/2020
  * Description:
  ******************************************************************/
-<<<<<<< HEAD
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => !!(!(x % 400) || (!(x % 4) && (x % 100)));
-=======
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -23,4 +19,3 @@ exports.default = (x) => {
     const n = string_1.default(x) ? parseInt(x) : x;
     return !!(!(n % 400) || (!(n % 4) && (n % 100)));
 };
->>>>>>> x

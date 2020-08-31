@@ -10,8 +10,4 @@
 import ipv4 from './ipv4';
 import ipv6 from './ipv6';
 
-<<<<<<< HEAD
-export default ( x: any ): boolean => ipv4( x ) || ipv6( x );
-=======
 export default ( x: unknown ): boolean => ipv4( x ) || ipv6( x );
->>>>>>> x

@@ -6,9 +6,5 @@
  * Time: 08/12/2020
  * Description:
  ******************************************************************/
-<<<<<<< HEAD
-declare const _default: (x: any) => boolean;
-=======
 declare const _default: (x: unknown) => x is Map<any, any>;
->>>>>>> x
 export default _default;

@@ -7,10 +7,6 @@
  * Description: 
  ******************************************************************/
 
-<<<<<<< HEAD
-export default ( x: any ): x is string => {
-=======
 export default ( x: unknown ): x is string => {
->>>>>>> x
     return typeof x === 'string' || x instanceof String;
 }

@@ -10,11 +10,7 @@
 import isFunction from './function';
 import isObject from './object';
 
-<<<<<<< HEAD
-export default ( x: any ): boolean => {
-=======
 export default ( x: unknown ): boolean => {
->>>>>>> x
     if( !x || !isObject( x ) ) return false;
     const proto: any = Object.getPrototypeOf( x );
     if( !proto ) return true;

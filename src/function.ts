@@ -9,10 +9,6 @@
 
 import isAsyncFunction from './async-function';
 
-<<<<<<< HEAD
-export default ( x: any ): x is ( ...args: any[] ) => any => {
-=======
 export default ( x: unknown ): x is ( ...args: any[] ) => any => {
->>>>>>> x
     return ({}).toString.call( x ) === '[object Function]' || isAsyncFunction( x );
 }
