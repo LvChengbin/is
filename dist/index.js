@@ -145,5 +145,6 @@ const is = {
     window: window_1.default
 };
 exports.default = is;
+/* global module:true */
 module.exports = is;
 module.exports.default = is;

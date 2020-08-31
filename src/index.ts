@@ -146,5 +146,6 @@ const is: { [ key: string ]: ( x: unknown, ...args: any[] ) => boolean } = {
 
 export default is;
 
+/* global module:true */
 module.exports = is;
 module.exports.default = is;

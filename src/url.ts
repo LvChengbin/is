@@ -9,7 +9,7 @@
 
 import isString from './string';
 
-export default ( x: any ): boolean => {
+export default ( x: unknown ): boolean => {
     if( !isString( x ) ) return false;
     try {
         new URL( x as string );

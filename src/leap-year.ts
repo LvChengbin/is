@@ -8,9 +8,10 @@
  ******************************************************************/
 
 import isNumber from './number';
+import isString from './string';
 
 export default ( x: unknown ): boolean => {
     if( !isNumber( x ) ) return false;
-    const n = parseInt( x as string );
-    return !!( !( n % 400 ) || ( !( n % 4 ) && n ) );
+    const n = isString( x ) ? parseInt( x ) : x;
+    return !!( !( n % 400 ) || ( !( n % 4 ) && ( n % 100 ) ) );
 }

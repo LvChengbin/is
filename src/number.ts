@@ -7,8 +7,12 @@
  * Description: 
  ******************************************************************/
 
+import isString from './string';
+
 export default ( x: unknown, strict = false ): x is number => {
     if( ({}).toString.call( x ) === '[object Number]' ) return true;
     if( strict ) return false;
-    return !isNaN( parseFloat( x ) ) && isFinite( x ) && !/\.$/.test( x );
+    if( !isString( x ) ) return false;
+    const n = parseFloat( x );
+    return !isNaN( n ) && !isNaN( Number( x ) ) && isFinite( n ) && !/\.$/.test( x );
 }

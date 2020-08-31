@@ -1,6 +1,6 @@
 {
     "name": "@lvchengbin/is",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Do checking...",
     "keywords": [
         "is",
@@ -22,16 +22,16 @@
         "url": "git@github.com:LvChengbin/is.git"
     },
     "devDependencies": {
-        "@babel/core": "^7.11.1",
+        "@babel/core": "^7.11.4",
         "@babel/preset-env": "^7.11.0",
         "@babel/preset-typescript": "^7.10.4",
-        "@types/node": "^14.0.27",
-        "@typescript-eslint/eslint-plugin": "^3.9.0",
-        "@typescript-eslint/parser": "^3.9.0",
-        "eslint": "^7.6.0",
+        "@types/node": "^14.6.2",
+        "@typescript-eslint/eslint-plugin": "^3.10.1",
+        "@typescript-eslint/parser": "^3.10.1",
+        "eslint": "^7.7.0",
         "husky": "^4.2.5",
-        "jest": "^26.3.0",
-        "typescript": "^3.9.7"
+        "jest": "^26.4.2",
+        "typescript": "^4.0.2"
     },
     "scripts": {
         "clean": "rm -rf dist",
@@ -48,8 +48,13 @@
             "pre-push": "yarn lint && yarn test"
         }
     },
+    "engines": {
+        "node": ">=10.0.0"
+    },
     "main": "dist/index.js",
-    "files" : [ "dist" ],
+    "files": [
+        "dist"
+    ],
     "author": "LvChengbin <lvchengbin59@gmail.com>",
     "license": "MIT"
 }

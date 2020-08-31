@@ -7,6 +7,6 @@
  * Description: 
  ******************************************************************/
 
-export default ( x: any ): x is string => {
+export default ( x: unknown ): x is string => {
     return typeof x === 'string' || x instanceof String;
 }

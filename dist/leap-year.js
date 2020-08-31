@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const number_1 = __importDefault(require("./number"));
+const string_1 = __importDefault(require("./string"));
 exports.default = (x) => {
     if (!number_1.default(x))
         return false;
-    const n = parseInt(x);
-    return !!(!(n % 400) || (!(n % 4) && n));
+    const n = string_1.default(x) ? parseInt(x) : x;
+    return !!(!(n % 400) || (!(n % 4) && (n % 100)));
 };

@@ -466,3 +466,57 @@ describe( 'invalid IPv6 addresses', () => {
         } );
     }
 } );
+
+describe( 'is.url', () => {
+
+    it( 'http', () => {
+        expect( is.url( 'http://a.b' ) ).toBeTruthy();
+    } );
+
+    it( 'https', () => {
+        expect( is.url( 'https://a.b' ) ).toBeTruthy();
+    } );
+
+    it( 'ftp', () => {
+        expect( is.url( 'ftp://a.b' ) ).toBeTruthy();
+    } );
+
+    it( 'username & password', () => {
+        expect( is.url( 'https://u:p@a.b:9000?x=1&y=2#xx' ) ).toBeTruthy();
+    } );
+
+    it( 'localhost', () => {
+        expect( is.url( 'http://localhost' ) ).toBeTruthy();
+    } );
+
+    it( 'port', () => {
+        expect( is.url( 'ftp://u:p@x.x:1000' ) ).toBeTruthy();
+    } );
+    it( 'search & hash', () => {
+        expect( is.url( 'httpc://a.b/a/b/c?x=1&y=2#xx' ) ).toBeTruthy();
+    } );
+
+    it( 'IPv4', () => {
+        expect( is.url( 'http://1.1.1.1:9999' ) ).toBeTruthy();
+    } );
+
+    it( 'Incompleted IPv4', () => {
+        expect( is.url( 'http://1:9999' ) ).toBeTruthy();
+    } );
+
+    it( 'Integer IPv4', () => {
+        expect( is.url( 'http://300:9999' ) ).toBeTruthy();
+    } );
+
+    it( 'IPv6', () => {
+        expect( is.url( 'http://[::80]:9999' ) ).toBeTruthy();
+    } );
+    
+    it( 'is.url false', () => {
+        expect( is.url( '://a.b?x=1&y=2#xx' ) ).toBeFalsy();
+        expect( is.url( 'www.xx.com' ) ).toBeFalsy();
+        expect( is.url( 'http://333.333.333.333' ) ).toBeFalsy();
+        expect( is.url( 'http://www.xx.com:23543535' ) ).toBeFalsy();
+    } );
+
+} );
