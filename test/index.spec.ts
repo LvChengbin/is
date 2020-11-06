@@ -134,7 +134,7 @@ describe( 'is', () => {
     } );
 
     it( 'is.empty', () => {
-        expect( is.empty() ).toBeTruthy();
+        expect( is.empty( undefined ) ).toBeTruthy();
         expect( is.empty( false ) ).toBeTruthy();
         expect( is.empty( '' ) ).toBeTruthy();
         expect( is.empty( null ) ).toBeTruthy();
@@ -329,7 +329,6 @@ describe( 'is', () => {
     } );
 
     it( 'is.undefined', () => {
-        expect( () => is.undefined() ).toThrow();
         expect( is.undefined( undefined ) ).toBeTruthy();
     } );
 
