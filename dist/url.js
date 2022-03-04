@@ -11,8 +11,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const string_1 = __importDefault(require("./string"));
-exports.default = (x) => {
+var string_1 = __importDefault(require("./string"));
+exports.default = (function (x) {
     if (!string_1.default(x))
         return false;
     try {
@@ -22,4 +22,4 @@ exports.default = (x) => {
     catch (e) {
         return false;
     }
-};
+});

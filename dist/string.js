@@ -8,6 +8,6 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => {
+exports.default = (function (x) {
     return typeof x === 'string' || x instanceof String;
-};
+});

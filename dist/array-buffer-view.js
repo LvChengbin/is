@@ -8,4 +8,4 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => ArrayBuffer.isView(x);
+exports.default = (function (x) { return ArrayBuffer.isView(x); });

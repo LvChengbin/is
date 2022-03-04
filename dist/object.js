@@ -8,4 +8,4 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => x && typeof x === 'object' && !Array.isArray(x);
+exports.default = (function (x) { return x && typeof x === 'object' && !Array.isArray(x); });

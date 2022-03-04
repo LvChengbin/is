@@ -11,6 +11,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ipv4_1 = __importDefault(require("./ipv4"));
-const ipv6_1 = __importDefault(require("./ipv6"));
-exports.default = (x) => ipv4_1.default(x) || ipv6_1.default(x);
+var ipv4_1 = __importDefault(require("./ipv4"));
+var ipv6_1 = __importDefault(require("./ipv6"));
+exports.default = (function (x) { return ipv4_1.default(x) || ipv6_1.default(x); });

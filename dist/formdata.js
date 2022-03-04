@@ -8,4 +8,4 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => ({}).toString.call(x) === '[object FormData]';
+exports.default = (function (x) { return ({}).toString.call(x) === '[object FormData]'; });

@@ -11,7 +11,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const async_function_1 = __importDefault(require("./async-function"));
-exports.default = (x) => {
+var async_function_1 = __importDefault(require("./async-function"));
+exports.default = (function (x) {
     return ({}).toString.call(x) === '[object Function]' || async_function_1.default(x);
-};
+});

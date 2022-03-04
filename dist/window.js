@@ -8,4 +8,4 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => x && x === x.window;
+exports.default = (function (x) { return x && x === x.window; });

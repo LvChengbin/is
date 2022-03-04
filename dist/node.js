@@ -8,4 +8,4 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => x instanceof Node;
+exports.default = (function (x) { return x instanceof Node; });

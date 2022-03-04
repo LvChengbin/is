@@ -11,13 +11,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const array_1 = __importDefault(require("./array"));
-exports.default = (x) => {
+var array_1 = __importDefault(require("./array"));
+exports.default = (function (x) {
     if (!array_1.default(x))
         return false;
-    for (const item of x) {
+    for (var _i = 0, _a = x; _i < _a.length; _i++) {
+        var item = _a[_i];
         if (array_1.default(item))
             return false;
     }
     return true;
-};
+});

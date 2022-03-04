@@ -8,4 +8,4 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = () => { var _a, _b; return !!((_b = (_a = window.matchMedia) === null || _a === void 0 ? void 0 : _a.call(window, '(prefers-color-scheme: dark)')) === null || _b === void 0 ? void 0 : _b.matches); };
+exports.default = (function () { var _a, _b; return !!((_b = (_a = window.matchMedia) === null || _a === void 0 ? void 0 : _a.call(window, '(prefers-color-scheme: dark)')) === null || _b === void 0 ? void 0 : _b.matches); });

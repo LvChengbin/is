@@ -11,9 +11,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const string_1 = __importDefault(require("./string"));
-const number_1 = __importDefault(require("./number"));
-exports.default = (x) => {
+var string_1 = __importDefault(require("./string"));
+var number_1 = __importDefault(require("./number"));
+exports.default = (function (x) {
     if (number_1.default(x, true))
         return x % 1 === 0;
     if (!string_1.default(x))
@@ -21,4 +21,4 @@ exports.default = (x) => {
     if (x === '-0')
         return true;
     return x.indexOf('.') < 0 && String(parseInt(x)) === x;
-};
+});

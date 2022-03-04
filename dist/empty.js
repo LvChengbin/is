@@ -11,10 +11,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const array_1 = __importDefault(require("./array"));
-const string_1 = __importDefault(require("./string"));
-const object_1 = __importDefault(require("./object"));
-exports.default = (x) => {
+var array_1 = __importDefault(require("./array"));
+var string_1 = __importDefault(require("./string"));
+var object_1 = __importDefault(require("./object"));
+exports.default = (function (x) {
     if (array_1.default(x) || string_1.default(x)) {
         return !x.length;
     }
@@ -22,4 +22,4 @@ exports.default = (x) => {
         return !Object.keys(x).length;
     }
     return !x;
-};
+});
