@@ -8,11 +8,11 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => {
+exports.default = (function (x) {
     try {
         return new Function('x', 'return x.constructor === (function*(){}).constructor')(x);
     }
     catch (e) {
         return false;
     }
-};
+});

@@ -11,14 +11,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const string_1 = __importDefault(require("./string"));
-exports.default = (x, strict = false) => {
+var string_1 = __importDefault(require("./string"));
+exports.default = (function (x, strict) {
+    if (strict === void 0) { strict = false; }
     if (({}).toString.call(x) === '[object Number]')
         return true;
     if (strict)
         return false;
     if (!string_1.default(x))
         return false;
-    const n = parseFloat(x);
+    var n = parseFloat(x);
     return !isNaN(n) && !isNaN(Number(x)) && isFinite(n) && !/\.$/.test(x);
-};
+});

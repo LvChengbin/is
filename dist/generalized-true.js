@@ -11,11 +11,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const string_1 = __importDefault(require("./string"));
-const list = ['true', 'yes', '1', 'yea', 'y', 'agree', 'ok', 'yep'];
-exports.default = (x, haystack = list) => {
+var string_1 = __importDefault(require("./string"));
+var list = ['true', 'yes', '1', 'yea', 'y', 'agree', 'ok', 'yep'];
+exports.default = (function (x, haystack) {
+    if (haystack === void 0) { haystack = list; }
     if (string_1.default(x)) {
         return haystack.includes(x.toLowerCase());
     }
     return !!x;
-};
+});

@@ -8,4 +8,4 @@
  * Description:
  ******************************************************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (x) => typeof x === 'boolean';
+exports.default = (function (x) { return typeof x === 'boolean'; });

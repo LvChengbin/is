@@ -11,9 +11,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const number_1 = __importDefault(require("./number"));
-const function_1 = __importDefault(require("./function"));
-exports.default = (x, lower, upper, mode = 0) => {
+var number_1 = __importDefault(require("./number"));
+var function_1 = __importDefault(require("./function"));
+exports.default = (function (x, lower, upper, mode) {
+    if (mode === void 0) { mode = 0; }
     if (!number_1.default(x)) {
         if (!function_1.default(x.charCodeAt))
             return false;
@@ -21,7 +22,7 @@ exports.default = (x, lower, upper, mode = 0) => {
         lower = lower.charCodeAt(0);
         upper = upper.charCodeAt(0);
     }
-    const n = x;
+    var n = x;
     if (upper < lower)
         return false;
     // inclusive both lower and upper
@@ -37,4 +38,4 @@ exports.default = (x, lower, upper, mode = 0) => {
     if (mode === 3)
         return n > lower && n <= upper;
     return false;
-};
+});

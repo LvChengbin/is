@@ -11,8 +11,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ipv4_1 = __importDefault(require("./ipv4"));
-const string_1 = __importDefault(require("./string"));
+var ipv4_1 = __importDefault(require("./ipv4"));
+var string_1 = __importDefault(require("./string"));
 /**
  * BNF of IPv6:
  *
@@ -32,7 +32,7 @@ const string_1 = __importDefault(require("./string"));
  *  h16 = 1 * 4HEXDIG
  *      ; 16 bits of address represented in hexadcimal
  */
-exports.default = (x) => {
+exports.default = (function (x) {
     if (!string_1.default(x))
         return false;
     /**
@@ -67,9 +67,9 @@ exports.default = (x) => {
      * if the IPv6 address is in mixed form.
      */
     if (x.includes('.')) {
-        const lastColon = x.lastIndexOf(':');
-        const hexadecimal = x.substr(0, lastColon);
-        const decimal = x.substr(lastColon + 1);
+        var lastColon = x.lastIndexOf(':');
+        var hexadecimal = x.substr(0, lastColon);
+        var decimal = x.substr(lastColon + 1);
         /**
          * the decimal part should be an valid IPv4 address.
          */
@@ -89,4 +89,4 @@ exports.default = (x) => {
             return false;
     }
     return true;
-};
+});

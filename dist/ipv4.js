@@ -11,9 +11,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const string_1 = __importDefault(require("./string"));
-const integer_1 = __importDefault(require("./integer"));
-const between_1 = __importDefault(require("./between"));
+var string_1 = __importDefault(require("./string"));
+var integer_1 = __importDefault(require("./integer"));
+var between_1 = __importDefault(require("./between"));
 /**
  * BNF of IPv4 address
  *
@@ -25,11 +25,11 @@ const between_1 = __importDefault(require("./between"));
  *           / "2" 2DIGIT           ; 200-249
  *           / "25" %x30-35         ; 250-255
  */
-exports.default = (x) => {
+exports.default = (function (x) {
     if (!string_1.default(x))
         return false;
-    const pieces = x.split('.');
+    var pieces = x.split('.');
     if (pieces.length !== 4)
         return false;
-    return pieces.every((v) => integer_1.default(v) && between_1.default(v, 0, 255));
-};
+    return pieces.every(function (v) { return integer_1.default(v) && between_1.default(v, 0, 255); });
+});
